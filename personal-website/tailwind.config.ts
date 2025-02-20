@@ -22,5 +22,5 @@ module.exports = {
     },
   },
   darkMode: "class",
-  plugins: [heroui()],
+  plugins: [heroui(), require('daisyui'),],
 };

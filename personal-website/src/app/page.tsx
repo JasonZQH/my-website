@@ -1,43 +1,48 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import BrightnessOverlay from "@/components/BrightnessOverlay";
 import Footer from "@/components/Footer";
 
 export default function HomePage() {
-  // brightness 的范围 0～100
-  const [brightness, setBrightness] = useState(0);
+  const searchParams = useSearchParams();
+  const lit = searchParams.get("lit") === "true";
+  const [brightness, setBrightness] = useState(lit ? 100 : 0);
 
-  // Reset 回调：将 brightness 重置为 0，使覆盖层重新显示（全黑状态）
-  const handleReset = () => {
-    setBrightness(0);
+  useEffect(() => {
+    if (lit) {
+      setBrightness(100);
+    }
+  }, [lit]);
+
+  // 切换 toggle：如果 checked 为 false，设为0（显示覆盖层）；如果为 true，设为100（全亮）
+  const handleToggleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked;
+    if (isChecked) {
+      setBrightness(100);
+    } else {
+      setBrightness(0);
+    }
   };
 
   return (
-    <main className="relative min-h-screen bg-black text-white flex flex-col">
-      {/* 亮度覆盖层：初始全黑，拖动后逐渐消失 */}
-      <BrightnessOverlay brightness={brightness} setBrightness={setBrightness} />
+    <div className="relative bg-black text-white flex flex-col flex-grow min-h-screen">
+      {brightness < 100 && (
+        <BrightnessOverlay brightness={brightness} setBrightness={setBrightness} />
+      )}
 
-      {/* 主页内容 */}
-      <section className="flex flex-col items-center justify-center flex-grow">
-        <h1
-          className="
-            text-4xl font-bold 
-            bg-gradient-to-r from-green-400 via-blue-500 to-purple-500
-            bg-clip-text text-transparent
-            bg-[length:200%_200%]
-            animate-gradientText
-          "
-        >
-          AI Innovation & Development
+      <section className="relative z-10 flex flex-col items-center justify-center flex-grow pt-16 pb-16">
+        <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 bg-clip-text text-transparent bg-[length:200%_200%] animate-gradientText">
+        "The best way to predict the future is to create it."
         </h1>
         <p className="mt-4 max-w-md text-center text-gray-300">
-          A short slogan with gradient animation...
+          Seeking An Opportunity To Get a Better Development and Creativity
         </p>
       </section>
 
-      {/* Footer 固定在页面底部 */}
-      <Footer onReset={handleReset} />
-    </main>
+      {/* 将 Footer 传递 brightness 和 onToggle */}
+      <Footer brightness={brightness} onToggle={handleToggleChange} />
+    </div>
   );
 }

@@ -5,19 +5,22 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <nav className="w-full py-4 px-8 flex items-center justify-between bg-gray-900">
+    <nav className="fixed top-0 left-0 w-full py-4 px-8 flex items-center justify-between bg-gray-900 z-30">
       <div className="text-xl font-bold">
-        <Link href="/">Qinhao Zhang</Link>
+        <Link href="/?lit=true">Qinhao Zhang</Link>
       </div>
       <div className="flex gap-6">
         <Link href="/about" className="hover:text-gray-300">
           About
         </Link>
-        <Link href="/projects" className="hover:text-gray-300">
-          Projects
+        <Link href="/experience" className="hover:text-gray-300">
+          Experience
         </Link>
-        <Link href="/contact" className="hover:text-gray-300">
-          Contact
+        <Link href="/project" className="hover:text-gray-300">
+          Project/Publish
+        </Link>
+        <Link href="/suggestion" className="hover:text-gray-300">
+          Suggestion
         </Link>
       </div>
     </nav>

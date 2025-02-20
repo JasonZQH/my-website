@@ -25,7 +25,7 @@ export default function BrightnessOverlay({ brightness, setBrightness }: Brightn
       {showOverlay && (
         <div
           className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black transition-opacity duration-300"
-          style={{ opacity: overlayOpacity }}
+          style={{ opacity: overlayOpacity, bottom: "100px" }}
         >
           {/* 可选：显示提示文字 */}
           {/* <div className="text-white mb-4 text-lg">Slide to brighten</div> */}
