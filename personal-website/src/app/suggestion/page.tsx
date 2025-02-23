@@ -209,7 +209,7 @@ export default function ContactPage() {
             >
               <CheckIcon className="hidden w-4 h-4 fill-black group-data-[checked]:block" />
             </Checkbox>
-            <span>I'm a recruiter</span>
+            <span>I&apos;m a recruiter</span>
           </label>
 
           {/* 建议文本框 */}
