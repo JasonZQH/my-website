@@ -34,7 +34,7 @@ export default function HomePage() {
 
       <section className="relative z-10 flex flex-col items-center justify-center flex-grow pt-16 pb-16">
         <h1 className="text-4xl font-bold text-center bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 bg-clip-text text-transparent bg-[length:200%_200%] animate-gradientText">
-        "The best way to predict the future is to create it."
+        &quot;The best way to predict the future is to create it.&quot;
         </h1>
         <p className="mt-4 max-w-md text-center text-gray-300">
           Seeking An Opportunity To Get a Better Self-Development and Creativity
