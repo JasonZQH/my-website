@@ -10,16 +10,28 @@ export default function AboutPage() {
 
       <div className="max-w-3xl text-gray-300 space-y-6">
         <p className="leading-relaxed">
-          Hello! I’m <span className="font-semibold">Qinhao Zhang</span>, a passionate Data Scientist with a strong background in AI, Machine Learning, and Data Analysis. 
-          I thrive on solving complex problems, exploring innovative solutions, and staying on the cutting edge of technology.
+          Hello! I’m <span className="font-semibold">Qinhao Zhang</span>, 
+          a passionate Data Scientist and Software Engineer, 
+          currently pursuing my <span className="font-semibold">M.S. in Data Science</span> at <span className="font-semibold">Northeastern University - Khoury College of Computer Science</span>. 
+          My academic journey has been shaped by a strong foundation in <span className="font-semibold">Applied Statistics and Data Science</span>, which I developed during my undergraduate studies at <span className="font-semibold">M.S. in Data Science</span> at <span className="font-semibold">Pennsylvania State University</span>.
         </p>
 
         <p className="leading-relaxed">
-          I hold a <span className="font-semibold">B.S. in Applied Statistics & Data Science</span> from Penn State University and am currently pursuing a <span className="font-semibold">M.S. in Data Science</span> at Northeastern University. My academic and professional experiences have shaped my approach to data-driven insights and AI research.
+        My expertise spans <span className="font-semibold">machine learning, computer vision, and algorithm optimization</span>, with hands-on experience in <span className="font-semibold">full-stack development, 
+        data engineering, and cloud computing</span>. 
+        I have worked on projects involving <span className="font-semibold">real-time AI systems, video processing, and facial expression recognition</span>, 
+        leading to contributions in both industry and research.
         </p>
 
         <p className="leading-relaxed">
-          Beyond coding and data crunching, I love to explore new frontiers in AI, collaborate on innovative projects, and share knowledge with the community. Welcome to my personal site—let’s build the future together!
+        I am particularly interested in <span className="font-semibold">lightweight deep learning models, scalable AI architectures, 
+        and real-world AI applications</span> that enhance automation and decision-making processes. 
+        My recent research has focused on <span className="font-semibold">efficient AI models for resource-constrained environments</span>, with publications and practical implementations in emerging technologies.
+        </p>
+        
+        <p className="leading-relaxed">
+        Beyond academics, I enjoy building <span className="font-semibold">innovative AI-driven applications</span>, exploring algorithmic problem-solving, 
+        and collaborating on interdisciplinary projects that merge <span className="font-semibold">data science, software engineering, and artificial intelligence</span>.
         </p>
       </div>
     </section>

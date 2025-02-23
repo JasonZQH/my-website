@@ -1,14 +1,15 @@
 "use client";
+
 import React from "react";
 
 export default function ProjectsPage() {
   return (
     <section className="bg-black text-white px-6 py-[100px]">
       <h1 className="text-4xl font-bold mb-8 text-center bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 bg-clip-text text-transparent bg-[length:200%_200%] animate-gradientText">
-        PROJECTS
+        PROJECTS & PUBLICATIONS
       </h1>
       <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
-        {/* 第一项 */}
+        {/* 第一项：EmojiCamera */}
         <li>
           <div className="timeline-middle">
             <svg
@@ -25,13 +26,25 @@ export default function ProjectsPage() {
             </svg>
           </div>
           <div className="timeline-start mb-10 md:text-end">
-            <time className="font-mono italic block text-green-400">2023</time>
-            <div className="text-lg font-black text-purple-300">AI Chatbot</div>
-            Developed an NLP-based chatbot using transformer architecture to enable real-time conversation and sentiment analysis.
+            <time className="font-mono italic block text-green-400">
+              Sep. 2024 – Jan. 2025
+            </time>
+            <div className="text-lg font-black text-purple-300">
+              EmojiCamera: Facial Expression Detection AI
+            </div>
+            <p className="mt-2">
+              Led the development of a real-time AI system that detects facial
+              expressions and maps them to corresponding emojis. By leveraging MobileNetV3 with
+              attention mechanisms, the model achieved a 75% accuracy. Additionally, I co-authored a
+              research paper, “Lightweight Facial Expression Recognition Models for Low-Cost
+              Computing Environments”, which was presented at the 2025 IEEE Conference on Artificial
+              Intelligence.
+            </p>
           </div>
           <hr />
         </li>
-        {/* 第二项 */}
+
+        {/* 第二项：Flight Subscription Service */}
         <li>
           <hr />
           <div className="timeline-middle">
@@ -49,13 +62,23 @@ export default function ProjectsPage() {
             </svg>
           </div>
           <div className="timeline-end mb-10">
-            <time className="font-mono italic block block text-green-400">2022</time>
-            <div className="text-lg font-black text-purple-300">Computer Vision Research</div>
-            Built a convolutional neural network for image classification with advanced augmentation techniques, achieving high accuracy on challenging datasets.
+            <time className="font-mono italic block text-green-400">
+              Mar. 2024 – May. 2024
+            </time>
+            <div className="text-lg font-black text-purple-300">
+              Flight Subscription Service
+            </div>
+            <p className="mt-2">
+              Developed a flight deal subscription platform that integrates REST APIs for
+              real-time flight data retrieval. The system allows users to sign up for alerts and
+              search for deals, improving user engagement. Built with React (frontend), Node.js
+              (backend), and MySQL (database), the platform optimizes performance and scalability.
+            </p>
           </div>
           <hr />
         </li>
-        {/* 第三项 */}
+
+        {/* 第三项：Advanced Car Bidding System */}
         <li>
           <hr />
           <div className="timeline-middle">
@@ -73,9 +96,52 @@ export default function ProjectsPage() {
             </svg>
           </div>
           <div className="timeline-start mb-10 md:text-end">
-            <time className="font-mono italic block text-green-400">2021</time>
-            <div className="text-lg font-black text-purple-300">Web-based Data Visualization</div>
-            Developed interactive dashboards to visualize large datasets, providing actionable insights for stakeholders.
+            <time className="font-mono italic block text-green-400">
+              Jan. 2024 – Apr. 2024
+            </time>
+            <div className="text-lg font-black text-purple-300">
+              Advanced Car Bidding System
+            </div>
+            <p className="mt-2">
+              Designed a real-time car auction platform with a Django backend, React frontend, and
+              MySQL database. The system features secure user authentication, dynamic bidding
+              interfaces, and Docker-based deployment on GCP. My contributions improved the platform’s
+              usability, security, and scalability.
+            </p>
+          </div>
+          <hr />
+        </li>
+
+        {/* 第三项：Advanced Car Bidding System */}
+        <li>
+          <hr />
+          <div className="timeline-middle">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="h-5 w-5"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
+          <div className="timeline-end mb-10">
+            <time className="font-mono italic block text-green-400">
+              9. 2022 – 12. 2022
+            </time>
+            <div className="text-lg font-black text-purple-300">
+              Vaccine Companies Stock Price Forecast During COVID-19
+            </div>
+            <p className="mt-2">
+              Designed a real-time car auction platform with a Django backend, React frontend, and
+              MySQL database. The system features secure user authentication, dynamic bidding
+              interfaces, and Docker-based deployment on GCP. My contributions improved the platform’s
+              usability, security, and scalability.
+            </p>
           </div>
           <hr />
         </li>

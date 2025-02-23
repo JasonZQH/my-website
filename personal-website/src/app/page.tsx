@@ -37,7 +37,7 @@ export default function HomePage() {
         "The best way to predict the future is to create it."
         </h1>
         <p className="mt-4 max-w-md text-center text-gray-300">
-          Seeking An Opportunity To Get a Better Development and Creativity
+          Seeking An Opportunity To Get a Better Self-Development and Creativity
         </p>
       </section>
 

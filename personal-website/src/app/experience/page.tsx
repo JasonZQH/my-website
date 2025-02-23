@@ -17,7 +17,22 @@ interface TimelineItem {
 
 const timelineData: TimelineItem[] = [
     {
-      date: "2023 - Present",
+      date: "2025/1 - present",
+      title: "Software Enginnering Intern",
+      location: "IpserLab",
+      details: "To be continue",
+      icon: <BriefcaseIcon className="w-6 h-6 text-blue-400" />,
+    },
+    {
+      date: "2024/6 - 2024/8",
+      title: "Algorithm Enginnering Intern",
+      location: "SuperADS",
+      details: 
+        "Developed AI-driven video deduplication workflows, leveraging ComfyUI custom nodes to enhance video quality. My work on FUNCUIP, FUNSAR, and VCED models improved system scalability and maintainability. Additionally, I collaborated with cross-functional teams to introduce data-driven quality monitoring indicators, increasing self-check efficiency by 30%.",
+      icon: <BriefcaseIcon className="w-6 h-6 text-blue-400" />,
+    },
+    {
+      date: "2023/9 - Present",
       title: "M.S. in Data Science",
       location: "Northeastern University",
       details:
@@ -25,20 +40,20 @@ const timelineData: TimelineItem[] = [
       icon: <AcademicCapIcon className="w-6 h-6 text-green-400" />,
     },
     {
-      date: "2018 - 2022",
+      date: "2022/5 - 2022/8",
+      title: "Data Science Intern",
+      location: "Surge Consulting",
+      details:
+        "Automated voice-to-text transcription pipelines, reducing manual workload by 40% and improving efficiency. By deploying a Transformer-based ASR model (Wav2Vec 2.0), I enhanced transcription accuracy by 30%. My work also included integrating the ASR system into a scalable microservices architecture using Docker and Kubernetes.",
+      icon: <BriefcaseIcon className="w-6 h-6 text-blue-400" />,
+    },
+    {
+      date: "2018/9 - 2022/12",
       title: "B.S. in Applied Statistics & Data Science",
       location: "Penn State University",
       details:
         "Developed a strong foundation in statistical analysis, programming, and data manipulation. Collaborated on multiple data-driven research projects.",
       icon: <AcademicCapIcon className="w-6 h-6 text-green-400" />,
-    },
-    {
-      date: "Summer 2021",
-      title: "Data Science Intern",
-      location: "Tech Company XYZ",
-      details:
-        "Worked on predictive modeling and data visualization, gaining hands-on experience with real-world datasets.",
-      icon: <BriefcaseIcon className="w-6 h-6 text-blue-400" />,
     },
   ];
   
