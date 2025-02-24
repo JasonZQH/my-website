@@ -42,7 +42,7 @@ const fieldOptions: FieldOption[] = [
 
 export default function ContactPage() {
   // ======== 1. 亮度相关状态（与主页类似） ========
-  const [brightness, setBrightness] = useState(0);
+  const [brightness, setBrightness] = useState(100);
   const handleToggleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
     setBrightness(isChecked ? 100 : 0);
