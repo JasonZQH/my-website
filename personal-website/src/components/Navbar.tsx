@@ -9,7 +9,7 @@ import { GrWorkshop } from "react-icons/gr";
 
 export default function Navbar() {
   return (
-    <nav className="fixed top-0 left-0 w-full py-4 px-8 flex items-center justify-between bg-gray-900 z-30">
+    <nav className="fixed top-0 left-0 w-full py-4 px-8 flex items-center justify-between bg-gray-900 z-50">
       <div className="text-xl font-bold">
         <Link href="/?lit=true">Qinhao Zhang</Link>
       </div>

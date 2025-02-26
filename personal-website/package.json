@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "deploy": "npm run build && rsync --exclude=.git -azP -e \"ssh -i ~/.ssh/LightsailDefaultKey-us-west-2.pem\" . ubuntu@44.233.75.210:/home/ubuntu/apps/personal",
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "HOST=0.0.0.0 next start",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {

@@ -10,7 +10,7 @@ interface FooterProps {
 
 export default function Footer({ brightness, onToggle }: FooterProps) {
   return (
-    <footer className="fixed z-10 bottom-0 left-0 w-full py-4 px-8 bg-gray-900 text-gray-400 text-sm flex items-center justify-between">
+    <footer className="fixed z-10 bottom-0 left-0 w-full py-4 px-8 bg-gray-900 text-gray-400 text-sm flex items-center justify-between z-50">
       <div>© {new Date().getFullYear()} Qinhao Zhang. All rights reserved.</div>
       <div className="flex gap-4 items-center">
         <a href="zhang.qinha@northeastern.edu" className="hover:text-white" aria-label="Send me an email">

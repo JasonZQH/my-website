@@ -2,6 +2,12 @@
 
 import React, { useEffect } from "react";
 import { Slider } from "@heroui/react"; // HeroUI 的 Slider 组件
+import { Orbitron } from "next/font/google";
+
+const orbitron = Orbitron({
+  weight: "400", // 可根据需要选择粗细
+  subsets: ["latin"],
+});
 
 interface BrightnessOverlayProps {
   brightness: number; // 0:全黑, 100:全亮
@@ -24,29 +30,32 @@ export default function BrightnessOverlay({ brightness, setBrightness }: Brightn
     <>
       {showOverlay && (
         <div
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black transition-opacity duration-300"
-          style={{ opacity: overlayOpacity, bottom: "100px" }}
+          className="fixed inset-0 z-50 bg-black transition-opacity duration-300"
+          style={{ opacity: overlayOpacity }}
         >
-          {/* 可选：显示提示文字 */}
-          {/* <div className="text-white mb-4 text-lg">Slide to brighten</div> */}
-          <div className="flex flex-col gap-2 w-full h-full max-w-md items-center justify-center">
-            <Slider
-              aria-label="Brightness slider"
-              value={brightness}
-              onChange={(val: number | number[]) => {
-                if (typeof val === "number") {
-                  setBrightness(val);
-                } else if (Array.isArray(val)) {
-                  setBrightness(val[0]);
-                }
-              }}
-              minValue={0}
-              maxValue={100}
-              step={1}
-              // 采用 HeroUI Slider 默认样式，必要时可通过 className 自定义
-              className="max-w-md"
-              color="foreground"
-            />
+          {/* 使用一个 flex 容器垂直排列文字和滑块，并整体居中 */}
+          <div className="flex flex-col items-center justify-center h-full">
+            <p className={`${orbitron.className} text-md animate-breathe text-center mb-2`}>
+              Slide To Open
+            </p>
+            <div className="slider-half" style={{ width: "50vw" }}>
+              <Slider
+                aria-label="Brightness slider"
+                value={brightness}
+                onChange={(val: number | number[]) => {
+                  if (typeof val === "number") {
+                    setBrightness(val);
+                  } else if (Array.isArray(val)) {
+                    setBrightness(val[0]);
+                  }
+                }}
+                minValue={0}
+                maxValue={100}
+                step={1}
+                className="w-full h-10"
+                color="foreground"
+              />
+            </div>
           </div>
         </div>
       )}

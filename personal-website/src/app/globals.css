@@ -7,3 +7,8 @@ html, body {
   margin: 0;
   padding: 0;
 }
+
+.slider-half {
+  width: 50vw !important;
+  max-width: none !important;
+}
