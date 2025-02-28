@@ -137,10 +137,10 @@ export default function ProjectsPage() {
               Vaccine Companies Stock Price Forecast During COVID-19
             </div>
             <p className="mt-2">
-              Designed a real-time car auction platform with a Django backend, React frontend, and
-              MySQL database. The system features secure user authentication, dynamic bidding
-              interfaces, and Docker-based deployment on GCP. My contributions improved the platform’s
-              usability, security, and scalability.
+            Developed a time series forecasting model using ARIMA and SARIMA to predict stock price trends for Pfizer, Johnson & Johnson, and Moderna during the COVID-19 pandemic. 
+            By collecting official CDC data (daily infections, deaths, vaccination rates, etc.) and applying differencing techniques, the model was trained to capture stock price movements. 
+            However, due to the high volatility of stock markets and numerous external factors, the prediction accuracy remained around 50%, 
+            highlighting the complexity of relying solely on pandemic-related data for financial forecasting.
             </p>
           </div>
           <hr />
