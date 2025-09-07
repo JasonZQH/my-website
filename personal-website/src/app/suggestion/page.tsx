@@ -16,8 +16,8 @@ import {
 } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
-import BrightnessOverlay from "@/components/BrightnessOverlay";
 import Footer from "@/components/Footer";
+import ParticleBackground from "@/components/ParticleBackground";
 
 interface FieldOption {
   label: string;
@@ -41,14 +41,7 @@ const fieldOptions: FieldOption[] = [
 ];
 
 export default function ContactPage() {
-  // ======== 1. 亮度相关状态（与主页类似） ========
-  const [brightness, setBrightness] = useState(100);
-  const handleToggleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const isChecked = e.target.checked;
-    setBrightness(isChecked ? 100 : 0);
-  };
-
-  // ======== 2. 表单状态 ========
+  // ======== 表单状态 ========
   const [selectedField, setSelectedField] = useState<FieldOption>(fieldOptions[0]);
   const [canRefer, setCanRefer] = useState(false);
   const [isRecruiter, setIsRecruiter] = useState(false);
@@ -102,10 +95,7 @@ export default function ContactPage() {
 
   return (
     <div className="relative bg-black text-white min-h-screen flex flex-col">
-      {/* 当 brightness 未达到 100 时，显示覆盖层 */}
-      {brightness < 100 && (
-        <BrightnessOverlay brightness={brightness} setBrightness={setBrightness} />
-      )}
+      <ParticleBackground particleCount={25} />
 
       <section className="max-w-md mx-auto py-[100px] flex-grow">
         <h1 className="text-3xl text-center font-bold mb-6">
@@ -249,7 +239,7 @@ export default function ContactPage() {
         )}
       </section>
 
-      <Footer brightness={brightness} onToggle={handleToggleChange} />
+      <Footer />
     </div>
   );
 }

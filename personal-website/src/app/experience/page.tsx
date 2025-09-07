@@ -6,6 +6,7 @@ import {
     BriefcaseIcon,
     ChevronDownIcon,
   } from "@heroicons/react/24/solid";
+import ParticleBackground from "@/components/ParticleBackground";
 
 interface TimelineItem {
   date: string;
@@ -16,16 +17,30 @@ interface TimelineItem {
 }
 
 const timelineData: TimelineItem[] = [
+  {
+      date: "2025/09 - present",
+      title: "Teaching Assistant",
+      location: "Northeastern University",
+      details: "TA for CS5610: Web Development",
+      icon: <BriefcaseIcon className="w-6 h-6 text-blue-400" />,
+    },
+  {
+      date: "2025/06 - 2025/08",
+      title: "Backend Software Enginnering Intern",
+      location: "XPerf",
+      details: "Engineered the backend of an AI-powered bookkeeping application using Django with Pydantic-ai agent tool, enabling expense and income tracking, automated invoice generation, and integration of tax calculation features.",
+      icon: <BriefcaseIcon className="w-6 h-6 text-blue-400" />,
+    },
     {
-      date: "2025/1 - present",
+      date: "2025/1 - 2025/04",
       title: "Software Enginnering Intern",
       location: "IpserLab",
-      details: "To be continue",
+      details: "AI based Travel management system using Langchain for Java",
       icon: <BriefcaseIcon className="w-6 h-6 text-blue-400" />,
     },
     {
       date: "2024/6 - 2024/8",
-      title: "Algorithm Enginnering Intern",
+      title: "Software Enginnering Intern",
       location: "SuperADS",
       details: 
         "Developed AI-driven video deduplication workflows, leveraging ComfyUI custom nodes to enhance video quality. My work on FUNCUIP, FUNSAR, and VCED models improved system scalability and maintainability. Additionally, I collaborated with cross-functional teams to introduce data-driven quality monitoring indicators, increasing self-check efficiency by 30%.",
@@ -33,7 +48,7 @@ const timelineData: TimelineItem[] = [
     },
     {
       date: "2023/9 - Present",
-      title: "M.S. in Data Science",
+      title: "M.S. in Computer Science",
       location: "Northeastern University",
       details:
         "Focusing on machine learning, deep learning, and big data analytics, building advanced skills to tackle real-world AI challenges.",
@@ -60,6 +75,7 @@ const timelineData: TimelineItem[] = [
   export default function ExperiencePage() {
     return (
       <section className="relative flex flex-col items-center px-6 py-[100px] bg-black text-white">
+        <ParticleBackground particleCount={25} />
         <h1 className="text-4xl font-bold bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 bg-clip-text text-transparent bg-[length:200%_200%] animate-gradientText mb-8">
           Experience
         </h1>
