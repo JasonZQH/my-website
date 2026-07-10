@@ -1,86 +1,60 @@
 "use client";
 
-import React from "react";
 import { motion } from "framer-motion";
-import { FaEnvelope, FaLinkedin, FaInstagram, FaGithub } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer className="fixed bottom-0 left-0 w-full py-6 px-8 bg-black/80 backdrop-blur-sm border-t border-gray-800/50 z-50">
-      <div className="flex flex-col items-center space-y-4">
-        {/* Social Media Icons */}
-        <div className="flex gap-6 items-center">
-          <motion.a 
-            href="mailto:zhang.qinha@northeastern.edu" 
-            aria-label="Send me an email"
-            className="p-3 rounded-full bg-gray-800/50 hover:bg-gray-700/50 transition-colors"
-            whileHover={{ 
-              scale: 1.1, 
-              y: -3,
-              boxShadow: "0 10px 25px rgba(239, 68, 68, 0.3)"
-            }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <FaEnvelope className="w-5 h-5 text-red-400" />
-          </motion.a>
-          <motion.a 
-            href="https://github.com/JasonZQH" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            aria-label="My Github"
-            className="p-3 rounded-full bg-gray-800/50 hover:bg-gray-700/50 transition-colors"
-            whileHover={{ 
-              scale: 1.1, 
-              y: -3,
-              rotate: 360,
-              boxShadow: "0 10px 25px rgba(255, 255, 255, 0.2)"
-            }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <FaGithub className="w-5 h-5 text-white" />
-          </motion.a>
-          <motion.a 
-            href="https://www.linkedin.com/in/qinhaozhang98/" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            aria-label="My LinkedIn"
-            className="p-3 rounded-full bg-gray-800/50 hover:bg-gray-700/50 transition-colors"
-            whileHover={{ 
-              scale: 1.1, 
-              y: -3,
-              boxShadow: "0 10px 25px rgba(0, 119, 181, 0.3)"
-            }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <FaLinkedin className="w-5 h-5 text-blue-400" />
-          </motion.a>
-          <motion.a 
-            href="https://www.instagram.com/str8up__z?igsh=NTc4MTIwNjQ2YQ%3D%3D&utm_source=qr" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            aria-label="My Instagram"
-            className="p-3 rounded-full bg-gray-800/50 hover:bg-gray-700/50 transition-colors"
-            whileHover={{ 
-              scale: 1.1, 
-              y: -3,
-              rotate: 10,
-              boxShadow: "0 10px 25px rgba(228, 64, 95, 0.3)"
-            }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <FaInstagram className="w-5 h-5 text-pink-400" />
-          </motion.a>
-        </div>
-        
-        {/* Copyright */}
+    <footer className="relative bg-[#08050C] text-[#F4EEE3] px-6 sm:px-10 pt-20 pb-11 overflow-hidden">
+      <div
+        className="absolute -top-[40%] left-1/2 -translate-x-1/2 w-[70%] h-[120%] opacity-[.16] blur-[100px] pointer-events-none"
+        style={{ background: "radial-gradient(circle,#7B5CFF,transparent 60%)" }}
+      />
+      <div className="relative max-w-[1100px] mx-auto text-center">
         <motion.div
-          className="text-gray-400 text-sm text-center"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="font-display font-extrabold text-[clamp(44px,9vw,120px)] leading-[.9] tracking-[-.03em] bg-clip-text text-transparent [background-size:220%_220%] animate-[gradShift_8s_ease_infinite]"
+          style={{ backgroundImage: "linear-gradient(115deg,#FF5A3C,#FF2E93 45%,#7B5CFF 75%,#24D3EE)" }}
         >
-          © {new Date().getFullYear()} Qinhao Zhang. All rights reserved.
+          Jason Zhang
         </motion.div>
+        <div className="flex gap-3.5 justify-center mt-10 flex-wrap">
+          <a
+            href="mailto:zhang.qinha@northeastern.edu"
+            className="inline-flex items-center gap-2 text-sm font-medium text-[#F4EEE3] border border-white/[.14] px-5 py-[11px] rounded-full bg-white/[.03] transition-colors hover:border-[#FF5A3C] hover:text-[#FF5A3C]"
+          >
+            Email
+          </a>
+          <a
+            href="https://github.com/JasonZQH"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm font-medium text-[#F4EEE3] border border-white/[.14] px-5 py-[11px] rounded-full bg-white/[.03] transition-colors hover:border-[#F4EEE3]"
+          >
+            GitHub
+          </a>
+          <a
+            href="https://www.linkedin.com/in/qinhaozhang98/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm font-medium text-[#F4EEE3] border border-white/[.14] px-5 py-[11px] rounded-full bg-white/[.03] transition-colors hover:border-[#24D3EE] hover:text-[#24D3EE]"
+          >
+            LinkedIn
+          </a>
+          <a
+            href="https://www.instagram.com/str8up__z"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm font-medium text-[#F4EEE3] border border-white/[.14] px-5 py-[11px] rounded-full bg-white/[.03] transition-colors hover:border-[#FF2E93] hover:text-[#FF2E93]"
+          >
+            Instagram
+          </a>
+        </div>
+        <div className="mt-11 font-mono text-xs text-[#6B6377]">
+          © {new Date().getFullYear()} Jason Zhang · Designed &amp; built with care
+        </div>
       </div>
     </footer>
   );
