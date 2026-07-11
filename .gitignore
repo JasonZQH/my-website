@@ -14,3 +14,10 @@ Thumbs.db
 
 # SDD scratch (subagent-driven-development working dir)
 .superpowers/
+
+# Playwright
+.playwright-mcp/
+**/test-results/
+**/playwright-report/
+**/blob-report/
+**/playwright/.cache/
