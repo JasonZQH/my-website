@@ -57,18 +57,20 @@ jobs:
           #  - node_modules: reinstalled on the server for its own arch
           #  - .env: the server keeps its own (holds the real MONGODB_URI); --delete
           #          won't touch excluded paths
-          #  - server/: the retired Express app, never deployed
+          #  - /server: the retired top-level Express app. MUST be anchored with a
+          #    leading slash — an unanchored 'server' also matches .next/server, which
+          #    left the SSR build stale while chunks updated (HTML -> 404 JS chunks).
           rsync -az --delete \
             --exclude='.git' \
             --exclude='node_modules' \
             --exclude='.env' \
-            --exclude='server' \
+            --exclude='/server' \
             -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new" \
             ./ "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/"
 
-          # On the server: install prod deps, graceful reload, then poll the app on
-          # localhost until it actually serves. This is a real app health check and
-          # avoids the transient 502 you'd get curling through Cloudflare during the
-          # brief pm2-reload window.
+          # On the server: install prod deps, graceful reload, then run the post-deploy
+          # health check — it confirms the app serves AND every JS chunk the HTML
+          # references actually resolves (catches an inconsistent .next like the one
+          # the unanchored exclude used to produce).
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new "$DEPLOY_USER@$DEPLOY_HOST" \
-            'cd /home/ubuntu/apps/personal && npm ci --omit=dev && pm2 reload personal-website && for i in $(seq 1 30); do curl -sf -o /dev/null http://127.0.0.1:3000/ && { echo "app healthy after ~$((i*2))s"; exit 0; }; sleep 2; done; echo "app did not become healthy after reload"; exit 1'
+            'cd /home/ubuntu/apps/personal && npm ci --omit=dev && pm2 reload personal-website && bash scripts/post-deploy-healthcheck.sh'

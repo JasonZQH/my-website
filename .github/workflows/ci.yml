@@ -1,8 +1,11 @@
 name: CI
 
-# Quality gate. Runs on every PR into dev or main, and on direct pushes to dev.
-# Must pass before a PR can be merged (set this as a required check in
-# GitHub → Settings → Branches → branch protection for dev and main).
+# Two-tier gate — main is stricter than dev:
+#   * dev  (fast integration gate): lint + build.
+#   * main (strict production gate): everything dev runs, PLUS a headless-browser
+#     elements-verify render check and a dependency security audit.
+# The extra jobs are gated on `github.base_ref == 'main'`, so they run only for
+# PRs targeting main (base_ref is empty for pushes to dev, so they're skipped there).
 on:
   pull_request:
     branches: [dev, main]
@@ -10,6 +13,7 @@ on:
     branches: [dev]
 
 jobs:
+  # ---------- Tier 1: runs for dev AND main ----------
   lint-and-build:
     name: Lint & Build
     runs-on: ubuntu-latest
@@ -19,28 +23,78 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: npm
           cache-dependency-path: personal-website/package-lock.json
-
       - name: Install dependencies
         run: npm ci
-
       - name: Lint
         run: npm run lint
-
       - name: Build
         run: npm run build
         env:
-          # The app's db helper reads MONGODB_URI at module load, so the build
-          # needs it set. The build's own DB connection attempt fails harmlessly
-          # from GitHub's runners (their IPs aren't allowlisted in Atlas) and
-          # does not fail the build. The real value is only ever used at runtime
-          # from the server's own .env — never baked into the build output.
+          # DB helper reads MONGODB_URI at module load; the build's own connection
+          # attempt fails harmlessly from GitHub runners and never fails the build.
+          # The real value is only used at runtime from the server's own .env.
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
-          # Public GA id, inlined at build time (NEXT_PUBLIC_*).
           NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
+
+  # ---------- Tier 2: main only (stricter) ----------
+  elements-verify:
+    name: Elements verify (headless render)
+    if: github.base_ref == 'main'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: personal-website
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: personal-website/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+      - name: Render checks (boot prod server + drive a headless browser)
+        run: npm run test:e2e
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
+
+  security-audit:
+    name: Dependency audit
+    if: github.base_ref == 'main'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: personal-website
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: personal-website/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Audit dependencies
+        # NON-BLOCKING for now: the repo already has pre-existing (mostly transitive)
+        # high/critical advisories. Once those are cleared, drop the `|| echo` so this
+        # becomes a hard gate that blocks a production merge on high+ vulns.
+        run: |
+          npm audit --audit-level=high || echo "::warning::High/critical dependency vulnerabilities present — run 'npm audit' and address before the next release"
