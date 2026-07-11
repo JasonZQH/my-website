@@ -51,7 +51,7 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null
 
-      - name: Ship build to server and reload
+      - name: Ship build to server, reload, and health-check
         run: |
           # Ship source + the freshly built .next. Exclude:
           #  - node_modules: reinstalled on the server for its own arch
@@ -66,13 +66,9 @@ jobs:
             -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new" \
             ./ "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/"
 
-          # Install production deps for the server's arch, then graceful zero-downtime reload.
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new \
-            "$DEPLOY_USER@$DEPLOY_HOST" \
-            "cd $DEPLOY_PATH && npm ci --omit=dev && pm2 reload personal-website"
-
-      - name: Verify the site responds
-        run: |
-          code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 https://qinhaozhang.dev/ || echo 000)
-          echo "https://qinhaozhang.dev -> HTTP $code"
-          test "$code" = "200"
+          # On the server: install prod deps, graceful reload, then poll the app on
+          # localhost until it actually serves. This is a real app health check and
+          # avoids the transient 502 you'd get curling through Cloudflare during the
+          # brief pm2-reload window.
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new "$DEPLOY_USER@$DEPLOY_HOST" \
+            'cd /home/ubuntu/apps/personal && npm ci --omit=dev && pm2 reload personal-website && for i in $(seq 1 30); do curl -sf -o /dev/null http://127.0.0.1:3000/ && { echo "app healthy after ~$((i*2))s"; exit 0; }; sleep 2; done; echo "app did not become healthy after reload"; exit 1'

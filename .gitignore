@@ -1,0 +1,16 @@
+# macOS finder metadata
+.DS_Store
+**/.DS_Store
+
+# Editor / OS cruft
+*.swp
+*~
+Thumbs.db
+
+# Local env files (the app also ignores these in personal-website/.gitignore)
+.env
+.env.*
+!.env.example
+
+# SDD scratch (subagent-driven-development working dir)
+.superpowers/
