@@ -1,36 +1,39 @@
 import { Metadata } from "next";
 import Script from "next/script";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import MouseGlow from "@/components/MouseGlow";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "800"],
+});
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-body",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-mono",
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+});
 
-// 在这里替换成你的 GA ID
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 export const metadata: Metadata = {
-  title: "My Personal Website",
-  description: "A personalized portfolio with AI/ML focus",
+  title: "Jason Zhang — AI/ML Software Engineer",
+  description: "Portfolio of Jason Zhang: agentic AI systems, computer vision, and full-stack products.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body
-        className={`
-          ${geistSans.variable} 
-          ${geistMono.variable} 
-          flex flex-col
-          antialiased 
-          bg-black 
-          text-white 
-          min-h-screen
-        `}
+        className={`${bricolage.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-body antialiased bg-[#0B0711] text-[#F4EEE3] min-h-screen overflow-x-hidden`}
       >
-        {/* Google Analytics script */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
           strategy="afterInteractive"
@@ -48,8 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <MouseGlow />
         <Navbar />
-        <main className="flex-grow">{children}</main>
-        {/* <Footer /> */}
+        <main>{children}</main>
       </body>
     </html>
   );
