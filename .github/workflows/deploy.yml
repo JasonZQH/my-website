@@ -72,5 +72,13 @@ jobs:
           # health check — it confirms the app serves AND every JS chunk the HTML
           # references actually resolves (catches an inconsistent .next like the one
           # the unanchored exclude used to produce).
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new "$DEPLOY_USER@$DEPLOY_HOST" \
-            'cd /home/ubuntu/apps/personal && npm ci --omit=dev && pm2 reload personal-website && bash scripts/post-deploy-healthcheck.sh'
+          #
+          # Notes on not hanging the job:
+          #  - `pm2 reload ... >/dev/null 2>&1`: pm2 over SSH otherwise leaves the
+          #    session's stdout/stderr held open by the daemon, so ssh never returns.
+          #  - ServerAlive*: drop a genuinely dead connection instead of waiting forever.
+          #  - `timeout 420`: hard backstop so a stuck session fails the step in minutes
+          #    rather than hanging for the 6h job default.
+          timeout 420 ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new \
+            -o ServerAliveInterval=15 -o ServerAliveCountMax=4 "$DEPLOY_USER@$DEPLOY_HOST" \
+            'cd /home/ubuntu/apps/personal && npm ci --omit=dev && pm2 reload personal-website >/dev/null 2>&1 && bash scripts/post-deploy-healthcheck.sh'
