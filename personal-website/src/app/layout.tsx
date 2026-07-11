@@ -1,24 +1,14 @@
 import { Metadata } from "next";
 import Script from "next/script";
-import { Bricolage_Grotesque, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Kanit } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import MouseGlow from "@/components/MouseGlow";
 
-const bricolage = Bricolage_Grotesque({
+// v3 uses a single family — Kanit — for display, body, and labels alike.
+const kanit = Kanit({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
-});
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-body",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-mono",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
@@ -32,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body
-        className={`${bricolage.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-body antialiased bg-[#0B0711] text-[#F4EEE3] min-h-screen overflow-x-hidden`}
+        className={`${kanit.variable} font-body antialiased bg-[#0C0C0C] text-[#D7E2EA] min-h-screen overflow-x-hidden`}
       >
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
@@ -49,7 +39,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           `}
         </Script>
 
-        <MouseGlow />
         <Navbar />
         <main>{children}</main>
       </body>

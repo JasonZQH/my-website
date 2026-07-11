@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* v3 accent palette — plum → magenta → violet → burnt orange */
+  --acc1: #18011f;
+  --acc2: #b600a8;
+  --acc3: #7621b0;
+  --acc4: #be4c00;
+}
+
 html, body {
   height: 100%;
   margin: 0;
@@ -13,15 +21,29 @@ html {
 }
 
 ::selection {
-  background: #FF2E93;
+  background: #b600a8;
   color: #fff;
 }
 
-.slider-half {
-  width: 50vw !important;
-  max-width: none !important;
+/* Steel gradient clipped to text — all big v3 section headings */
+.steel-text {
+  background: linear-gradient(180deg, #646973, #bbccd7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
+/* Aurora gradient clipped to text — footer wordmark */
+.aurora-text {
+  background: linear-gradient(123deg, var(--acc1) 7%, var(--acc2) 37%, var(--acc3) 72%, var(--acc4) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* --- Aurora-era keyframes below: still referenced by components pending v3 rework; pruned in the cleanup commit --- */
 @keyframes gradShift { 0% { background-position: 0% 50% } 50% { background-position: 100% 50% } 100% { background-position: 0% 50% } }
 @keyframes blobA { 0%, 100% { transform: translate(0,0) scale(1) } 33% { transform: translate(8%,-6%) scale(1.12) } 66% { transform: translate(-6%,7%) scale(.92) } }
 @keyframes blobB { 0%, 100% { transform: translate(0,0) scale(1) } 50% { transform: translate(-9%,8%) scale(1.15) } }
