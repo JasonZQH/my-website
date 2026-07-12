@@ -1,146 +1,178 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useTilt } from "@/hooks/useTilt";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import FadeIn from "@/components/ui/FadeIn";
+import ImageSlot from "@/components/ui/ImageSlot";
 
-const FEATURED = {
-  range: "May 2025 — Dec 2025",
-  title: "Tradgent",
-  desc: "An AI-powered trading recommendation system delivering real-time, personalized insights. Built on FastAPI + Pydantic-AI with MongoDB and Redis; a conversational AI advisor surfaces live guidance and risk alerts.",
-  tags: ["FastAPI", "Pydantic-AI", "MongoDB", "Redis"],
+type Project = {
+  category: string;
+  title: string;
+  subtitle: string;
+  href: string;
+  slug: string;
+  /**
+   * Real shots go in public/projects/<slug>-{a,b,c}.webp and get wired by
+   * filling these fields (e.g. a: "/projects/tradgent-a.webp"). Empty slots
+   * render the on-brand gradient placeholder.
+   */
+  images: { a?: string; b?: string; c?: string };
 };
 
-const PROJECTS = [
+const PROJECTS: Project[] = [
   {
-    num: "02",
-    range: "Sep 2024 — Jan 2025",
+    category: "AI System · 2025",
+    title: "Tradgent",
+    subtitle: "Real-time AI trading advisor — FastAPI · Pydantic-AI · MongoDB · Redis",
+    href: "https://github.com/JasonZQH",
+    slug: "tradgent",
+    images: {},
+  },
+  {
+    category: "Computer Vision · 2024",
     title: "EmojiCamera",
-    desc: "Real-time facial-expression detection mapped to emojis. MobileNetV3 + attention hit 75% accuracy — co-authored a paper on lightweight FER models for low-cost compute.",
-    tags: ["MobileNetV3", "Computer Vision", "Publication"],
-    hover: "rgba(255,46,147,.4)",
+    subtitle: "Lightweight real-time facial-expression → emoji model (MobileNetV3)",
+    href: "https://github.com/JasonZQH",
+    slug: "emojicamera",
+    images: {},
   },
   {
-    num: "03",
-    range: "Mar 2024 — May 2024",
+    category: "Full-Stack · 2024",
     title: "Flight Subscription Service",
-    desc: "A flight-deal alert platform integrating real-time flight APIs. Users subscribe to deals and searches; built with React, Node.js, and MySQL for performance at scale.",
-    tags: ["React", "Node.js", "MySQL"],
-    hover: "rgba(123,92,255,.4)",
+    subtitle: "Flight-deal alerts on live APIs — React · Node.js · MySQL",
+    href: "https://github.com/JasonZQH",
+    slug: "flight-subscription",
+    images: {},
   },
   {
-    num: "04",
-    range: "Jan 2024 — Apr 2024",
+    category: "Full-Stack · 2024",
     title: "Advanced Car Bidding System",
-    desc: "A real-time car-auction platform with secure auth and dynamic bidding. Django + React + MySQL, Docker-deployed on GCP — improved usability, security, and scale.",
-    tags: ["Django", "GCP", "Docker"],
-    hover: "rgba(36,211,238,.4)",
+    subtitle: "Real-time auction platform — Django · React · GCP · Docker",
+    href: "https://github.com/JasonZQH",
+    slug: "car-bidding",
+    images: {},
   },
   {
-    num: "05",
-    range: "Sep 2022 — Dec 2022",
+    category: "Data Science · 2022",
     title: "Vaccine Stock Forecast",
-    desc: "Time-series forecasting (ARIMA / SARIMA) on Pfizer, J&J, and Moderna during COVID-19, trained on CDC data — a study in the limits of pandemic-only financial signals.",
-    tags: ["ARIMA", "Time Series", "Forecasting"],
-    hover: "rgba(255,90,60,.4)",
+    subtitle: "ARIMA / SARIMA time-series study on pandemic-era pharma stocks",
+    href: "https://github.com/JasonZQH",
+    slug: "vaccine-forecast",
+    images: {},
   },
 ];
 
-function FeaturedCard() {
-  const tiltRef = useTilt<HTMLAnchorElement>();
-  return (
-    <motion.a
-      ref={tiltRef}
-      href="#work"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.14 }}
-      transition={{ duration: 0.8 }}
-      className="block relative rounded-[26px] overflow-hidden border border-white/10 p-8 sm:p-11 mb-6 text-[#F4EEE3] transition-colors hover:border-white/[.28]"
-      style={{ background: "linear-gradient(140deg,rgba(255,90,60,.16),rgba(123,92,255,.16))" }}
-    >
-      <div className="relative flex justify-between items-start gap-5 flex-wrap">
-        <div className="max-w-[640px]">
-          <div className="flex items-center gap-3 mb-[18px]">
-            <span className="font-mono text-xs text-[#0B0711] bg-[#B8FF39] px-3 py-[5px] rounded-full font-bold">
-              FEATURED
-            </span>
-            <span className="font-mono text-xs text-[#8FE7F5]">{FEATURED.range}</span>
-          </div>
-          <h3 className="font-display font-extrabold text-[clamp(28px,3.4vw,42px)] leading-[1.02] tracking-[-.02em]">
-            {FEATURED.title}
-          </h3>
-          <p className="text-[#D4CEDD] text-[17px] leading-relaxed mt-3.5">{FEATURED.desc}</p>
-          <div className="flex flex-wrap gap-2 mt-[22px]">
-            {FEATURED.tags.map((t) => (
-              <span key={t} className="font-mono text-xs border border-white/20 px-3 py-[5px] rounded-full text-[#C9C2D4]">
-                {t}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div className="font-display font-extrabold text-[64px] text-white/[.14] leading-none">01</div>
-      </div>
-    </motion.a>
-  );
-}
+const WELL_RADIUS = "rounded-[clamp(24px,3vw,44px)]";
 
-function ProjectCard({ project, delay }: { project: (typeof PROJECTS)[number]; delay: number }) {
-  const tiltRef = useTilt<HTMLAnchorElement>();
+function ProjectCard({
+  project,
+  index,
+  count,
+  progress,
+}: {
+  project: Project;
+  index: number;
+  count: number;
+  progress: MotionValue<number>;
+}) {
+  const reduce = usePrefersReducedMotion();
+  // As the next card scrolls over this one, recede toward 1 - (n-1-i) * 0.03.
+  const scale = useTransform(progress, [index / count, 1], [1, 1 - (count - 1 - index) * 0.03]);
+  const num = String(index + 1).padStart(2, "0");
+
   return (
-    <motion.a
-      ref={tiltRef}
-      href="#work"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.14 }}
-      transition={{ duration: 0.8, delay }}
-      className="block relative rounded-[22px] bg-[#130C1F] border border-white/[.08] p-8 text-[#F4EEE3] overflow-hidden transition-colors hover:[border-color:var(--hover-c)]"
-      style={{ "--hover-c": project.hover } as React.CSSProperties}
-    >
-      <div className="flex justify-between items-start">
-        <span className="font-mono text-xs text-[#8FE7F5]">{project.range}</span>
-        <span className="font-display font-extrabold text-[34px] text-white/[.12]">{project.num}</span>
-      </div>
-      <h3 className="font-display font-extrabold text-2xl mt-3.5 leading-[1.05]">{project.title}</h3>
-      <p className="text-[#C9C2D4] text-[15px] leading-relaxed mt-3">{project.desc}</p>
-      <div className="flex flex-wrap gap-[7px] mt-[18px]">
-        {project.tags.map((t) => (
-          <span key={t} className="font-mono text-[11px] border border-white/[.18] px-2.5 py-1 rounded-full text-[#B7AFC2]">
-            {t}
-          </span>
-        ))}
-      </div>
-    </motion.a>
+    <div className="h-[90vh]">
+      <motion.div
+        className="sticky will-change-transform"
+        style={{
+          top: 90 + index * 26,
+          scale: reduce ? 1 : scale,
+          transformOrigin: "top center",
+        }}
+      >
+        <article className="border-2 border-[#D7E2EA] rounded-[clamp(32px,4vw,56px)] bg-[#0C0C0C] p-[clamp(18px,2.2vw,32px)]">
+          <div className="flex justify-between items-start gap-5 flex-wrap mb-[clamp(16px,2.2vw,26px)] px-[clamp(4px,1vw,12px)]">
+            <div className="flex items-baseline gap-[clamp(14px,2vw,28px)]">
+              <span className="steel-text font-black leading-[.8] text-[clamp(2.4rem,7vw,92px)]">
+                {num}
+              </span>
+              <div>
+                <div className="uppercase tracking-[.16em] text-[#8B9298] text-[clamp(.66rem,1vw,.88rem)]">
+                  {project.category}
+                </div>
+                <h3 className="font-semibold text-[clamp(1.3rem,3vw,2.4rem)] leading-[1.05] mt-1">
+                  {project.title}
+                </h3>
+                <p className="font-light text-[rgba(215,226,234,.55)] text-[clamp(.82rem,1.3vw,1.05rem)] mt-1.5 max-w-[440px]">
+                  {project.subtitle}
+                </p>
+              </div>
+            </div>
+            <a
+              href={project.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center font-medium uppercase tracking-[.14em] text-[clamp(.7rem,1vw,.95rem)] text-[#D7E2EA] px-[clamp(22px,2.4vw,34px)] py-[11px] rounded-full border-2 border-[#D7E2EA] whitespace-nowrap transition-colors hover:bg-[rgba(215,226,234,.1)]"
+            >
+              View Project
+            </a>
+          </div>
+          <div className="flex gap-[clamp(10px,1.4vw,18px)] items-stretch">
+            <div className="flex-[0_0_40%] flex flex-col gap-[clamp(10px,1.4vw,18px)]">
+              <ImageSlot
+                src={project.images.a}
+                alt={`${project.title} screenshot placeholder`}
+                variant={index * 3}
+                className={`h-[clamp(84px,10vw,150px)] ${WELL_RADIUS}`}
+              />
+              <ImageSlot
+                src={project.images.b}
+                alt={`${project.title} screenshot placeholder`}
+                variant={index * 3 + 1}
+                className={`h-[clamp(112px,14vw,205px)] ${WELL_RADIUS}`}
+              />
+            </div>
+            <ImageSlot
+              src={project.images.c}
+              alt={`${project.title} screenshot placeholder`}
+              variant={index * 3 + 2}
+              className={`flex-1 min-h-[clamp(206px,25vw,373px)] ${WELL_RADIUS}`}
+            />
+          </div>
+        </article>
+      </motion.div>
+    </div>
   );
 }
 
 export default function Work() {
+  const stackRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: stackRef,
+    offset: ["start start", "end end"],
+  });
+
   return (
-    <section id="work" className="scroll-mt-[90px] bg-[#0B0711] text-[#F4EEE3] px-6 sm:px-10 pt-10 pb-[130px]">
-      <div className="max-w-[1160px] mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.14 }}
-          transition={{ duration: 0.8 }}
-          className="flex items-end justify-between gap-6 mb-14 flex-wrap"
-        >
-          <div>
-            <div className="font-mono text-xs tracking-[.24em] uppercase text-[#FF2E93] mb-4">/ selected work</div>
-            <h2 className="font-display font-extrabold text-[clamp(34px,4.8vw,60px)] leading-none tracking-[-.02em]">
-              Projects &amp; publications
-            </h2>
-          </div>
-          <div className="font-mono text-[13px] text-[#8B8397] max-w-[280px]">
-            Real-time AI, computer vision, and full-stack systems.
-          </div>
-        </motion.div>
-
-        <FeaturedCard />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {PROJECTS.map((p, i) => (
-            <ProjectCard key={p.title} project={p} delay={i % 2 === 1 ? 0.08 : 0} />
+    <section
+      id="projects"
+      className="scroll-mt-20 relative z-[3] bg-[#0C0C0C] px-[clamp(16px,3vw,32px)] pt-[clamp(70px,8vw,110px)] pb-5"
+    >
+      <div className="max-w-[1200px] mx-auto">
+        <FadeIn y={40}>
+          <h2 className="steel-text font-black uppercase tracking-[-.02em] leading-none text-[clamp(3rem,12vw,150px)] text-center mb-[clamp(36px,5vw,60px)]">
+            Projects
+          </h2>
+        </FadeIn>
+        <div ref={stackRef}>
+          {PROJECTS.map((project, i) => (
+            <ProjectCard
+              key={project.slug}
+              project={project}
+              index={i}
+              count={PROJECTS.length}
+              progress={scrollYProgress}
+            />
           ))}
         </div>
       </div>
