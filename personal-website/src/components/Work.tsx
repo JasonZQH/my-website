@@ -79,7 +79,7 @@ function ProjectCard({
           transformOrigin: "top center",
         }}
       >
-        <article className="flex h-full flex-col rounded-[clamp(32px,4vw,60px)] border-2 border-[#D7E2EA] bg-[#0C0C0C] p-[clamp(16px,2.2vw,32px)]">
+        <article className="flex h-full flex-col rounded-[clamp(32px,4vw,60px)] border-2 border-[#D7E2EA] bg-[rgba(28,25,36,.78)] backdrop-blur-xl p-[clamp(16px,2.2vw,32px)]">
           <div className="mb-[clamp(16px,2.2vw,26px)] flex flex-wrap items-start justify-between gap-5 px-[clamp(4px,1vw,12px)]">
             <div className="flex items-baseline gap-[clamp(14px,2vw,28px)]">
               <span className="steel-text font-black leading-[.8] text-[clamp(2.4rem,7vw,92px)]">{num}</span>
@@ -127,7 +127,7 @@ export default function Work() {
   return (
     <section
       id="projects"
-      className="relative z-[3] -mt-[clamp(40px,5vw,56px)] scroll-mt-20 rounded-t-[clamp(40px,5vw,60px)] bg-[#0C0C0C] px-[clamp(16px,3vw,32px)] pb-5 pt-[clamp(90px,11vw,150px)]"
+      className="relative z-[3] -mt-[clamp(40px,5vw,56px)] scroll-mt-20 rounded-t-[clamp(40px,5vw,60px)] bg-[rgba(24,22,31,.58)] backdrop-blur-md px-[clamp(16px,3vw,32px)] pb-5 pt-[clamp(90px,11vw,150px)]"
     >
       <div className="mx-auto max-w-[1200px]">
         <FadeIn y={40}>

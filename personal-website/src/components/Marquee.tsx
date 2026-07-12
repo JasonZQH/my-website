@@ -35,7 +35,7 @@ function PreviewRow({ images, label }: { images: string[]; label: string }) {
   return (
     <>
       {images.concat(images, images).map((src, index) => (
-        <div key={`${label}-${index}`} className="h-[clamp(160px,18vw,270px)] w-[clamp(250px,28vw,420px)] flex-none overflow-hidden rounded-2xl bg-[#141414]">
+        <div key={`${label}-${index}`} className="h-[clamp(160px,18vw,270px)] w-[clamp(250px,28vw,420px)] flex-none overflow-hidden rounded-2xl bg-[#292530] shadow-[0_18px_40px_rgba(9,8,15,.22)]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={src}
