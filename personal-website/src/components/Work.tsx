@@ -9,61 +9,48 @@ import ImageSlot from "@/components/ui/ImageSlot";
 type Project = {
   category: string;
   title: string;
-  subtitle: string;
   href: string;
   slug: string;
-  /**
-   * Real shots go in public/projects/<slug>-{a,b,c}.webp and get wired by
-   * filling these fields (e.g. a: "/projects/tradgent-a.webp"). Empty slots
-   * render the on-brand gradient placeholder.
-   */
-  images: { a?: string; b?: string; c?: string };
+  images: { a: string; b: string; c: string };
 };
 
 const PROJECTS: Project[] = [
   {
-    category: "AI System · 2025",
-    title: "Tradgent",
-    subtitle: "Real-time AI trading advisor — FastAPI · Pydantic-AI · MongoDB · Redis",
-    href: "https://github.com/JasonZQH",
-    slug: "tradgent",
-    images: {},
+    category: "Client",
+    title: "Nextlevel Studio",
+    href: "#contact",
+    slug: "nextlevel-studio",
+    images: {
+      a: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055344_5eff02e0-87a5-41ce-b64f-eb08da8f33db.png&w=1280&q=85",
+      b: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055431_11d841fd-8b41-46a5-82e4-b04f2407a7d8.png&w=1280&q=85",
+      c: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055451_e317bf2d-28d4-48cc-86b0-6f72f25b6327.png&w=1280&q=85",
+    },
   },
   {
-    category: "Computer Vision · 2024",
-    title: "EmojiCamera",
-    subtitle: "Lightweight real-time facial-expression → emoji model (MobileNetV3)",
-    href: "https://github.com/JasonZQH",
-    slug: "emojicamera",
-    images: {},
+    category: "Personal",
+    title: "Aura Brand Identity",
+    href: "#contact",
+    slug: "aura-brand-identity",
+    images: {
+      a: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055654_911201c5-36d9-4bc6-bac7-331adfce159f.png&w=1280&q=85",
+      b: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055723_5ceda0b8-d9c2-4665-b2e3-83ba19ba76d1.png&w=1280&q=85",
+      c: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055753_adc5dcbd-a8e6-49c0-b43a-9b030d835cea.png&w=1280&q=85",
+    },
   },
   {
-    category: "Full-Stack · 2024",
-    title: "Flight Subscription Service",
-    subtitle: "Flight-deal alerts on live APIs — React · Node.js · MySQL",
-    href: "https://github.com/JasonZQH",
-    slug: "flight-subscription",
-    images: {},
-  },
-  {
-    category: "Full-Stack · 2024",
-    title: "Advanced Car Bidding System",
-    subtitle: "Real-time auction platform — Django · React · GCP · Docker",
-    href: "https://github.com/JasonZQH",
-    slug: "car-bidding",
-    images: {},
-  },
-  {
-    category: "Data Science · 2022",
-    title: "Vaccine Stock Forecast",
-    subtitle: "ARIMA / SARIMA time-series study on pandemic-era pharma stocks",
-    href: "https://github.com/JasonZQH",
-    slug: "vaccine-forecast",
-    images: {},
+    category: "Client",
+    title: "Solaris Digital",
+    href: "#contact",
+    slug: "solaris-digital",
+    images: {
+      a: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055759_963cfb0b-4bd1-4b0f-9d0a-09bd6cf95b2f.png&w=1280&q=85",
+      b: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_060108_438f781a-9846-4dcc-89ab-c4e6cb830f5b.png&w=1280&q=85",
+      c: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055818_9d062121-ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85",
+    },
   },
 ];
 
-const WELL_RADIUS = "rounded-[clamp(24px,3vw,44px)]";
+const WELL_RADIUS = "rounded-[clamp(24px,3vw,60px)]";
 
 function ProjectCard({
   project,
@@ -77,72 +64,56 @@ function ProjectCard({
   progress: MotionValue<number>;
 }) {
   const reduce = usePrefersReducedMotion();
-  // As the next card scrolls over this one, recede toward 1 - (n-1-i) * 0.03.
-  const scale = useTransform(progress, [index / count, 1], [1, 1 - (count - 1 - index) * 0.03]);
+  const targetScale = 1 - (count - 1 - index) * 0.03;
+  const scale = useTransform(progress, [index / count, 1], [1, targetScale]);
   const num = String(index + 1).padStart(2, "0");
 
   return (
-    <div className="h-[90vh]">
+    <>
       <motion.div
-        className="sticky will-change-transform"
+        className="sticky h-[72vh] min-h-[500px] will-change-transform"
         style={{
-          top: 90 + index * 26,
+          top: `calc(clamp(1.5rem, 3vw, 2rem) + ${index * 28}px)`,
+          zIndex: index + 1,
           scale: reduce ? 1 : scale,
           transformOrigin: "top center",
         }}
       >
-        <article className="border-2 border-[#D7E2EA] rounded-[clamp(32px,4vw,56px)] bg-[#0C0C0C] p-[clamp(18px,2.2vw,32px)]">
-          <div className="flex justify-between items-start gap-5 flex-wrap mb-[clamp(16px,2.2vw,26px)] px-[clamp(4px,1vw,12px)]">
+        <article className="flex h-full flex-col rounded-[clamp(32px,4vw,60px)] border-2 border-[#D7E2EA] bg-[#0C0C0C] p-[clamp(16px,2.2vw,32px)]">
+          <div className="mb-[clamp(16px,2.2vw,26px)] flex flex-wrap items-start justify-between gap-5 px-[clamp(4px,1vw,12px)]">
             <div className="flex items-baseline gap-[clamp(14px,2vw,28px)]">
-              <span className="steel-text font-black leading-[.8] text-[clamp(2.4rem,7vw,92px)]">
-                {num}
-              </span>
+              <span className="steel-text font-black leading-[.8] text-[clamp(2.4rem,7vw,92px)]">{num}</span>
               <div>
-                <div className="uppercase tracking-[.16em] text-[#8B9298] text-[clamp(.66rem,1vw,.88rem)]">
+                <div className="text-[clamp(.66rem,1vw,.88rem)] uppercase tracking-[.16em] text-[#8B9298]">
                   {project.category}
                 </div>
-                <h3 className="font-semibold text-[clamp(1.3rem,3vw,2.4rem)] leading-[1.05] mt-1">
+                <h3 className="mt-1 text-[clamp(1.3rem,3vw,2.4rem)] font-semibold leading-[1.05]">
                   {project.title}
                 </h3>
-                <p className="font-light text-[rgba(215,226,234,.55)] text-[clamp(.82rem,1.3vw,1.05rem)] mt-1.5 max-w-[440px]">
-                  {project.subtitle}
-                </p>
               </div>
             </div>
             <a
               href={project.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center font-medium uppercase tracking-[.14em] text-[clamp(.7rem,1vw,.95rem)] text-[#D7E2EA] px-[clamp(22px,2.4vw,34px)] py-[11px] rounded-full border-2 border-[#D7E2EA] whitespace-nowrap transition-colors hover:bg-[rgba(215,226,234,.1)]"
+              className="inline-flex whitespace-nowrap rounded-full border-2 border-[#D7E2EA] px-[clamp(22px,2.4vw,34px)] py-[11px] text-[clamp(.7rem,1vw,.95rem)] font-medium uppercase tracking-[.14em] text-[#D7E2EA] transition-colors hover:bg-[rgba(215,226,234,.1)]"
             >
-              View Project
+              Live Project
             </a>
           </div>
-          <div className="flex gap-[clamp(10px,1.4vw,18px)] items-stretch">
-            <div className="flex-[0_0_40%] flex flex-col gap-[clamp(10px,1.4vw,18px)]">
-              <ImageSlot
-                src={project.images.a}
-                alt={`${project.title} screenshot placeholder`}
-                variant={index * 3}
-                className={`h-[clamp(84px,10vw,150px)] ${WELL_RADIUS}`}
-              />
-              <ImageSlot
-                src={project.images.b}
-                alt={`${project.title} screenshot placeholder`}
-                variant={index * 3 + 1}
-                className={`h-[clamp(112px,14vw,205px)] ${WELL_RADIUS}`}
-              />
+          <div className="flex min-h-0 flex-1 items-stretch gap-[clamp(10px,1.4vw,18px)]">
+            <div className="flex min-h-0 flex-[0_0_40%] flex-col gap-[clamp(10px,1.4vw,18px)]">
+              <ImageSlot src={project.images.a} alt={`${project.title} project image one`} className={`min-h-0 flex-[0_0_40%] ${WELL_RADIUS}`} />
+              <ImageSlot src={project.images.b} alt={`${project.title} project image two`} className={`min-h-0 flex-1 ${WELL_RADIUS}`} />
             </div>
             <ImageSlot
               src={project.images.c}
-              alt={`${project.title} screenshot placeholder`}
-              variant={index * 3 + 2}
-              className={`flex-1 min-h-[clamp(206px,25vw,373px)] ${WELL_RADIUS}`}
+              alt={`${project.title} project image three`}
+              className={`min-h-0 flex-1 ${WELL_RADIUS}`}
             />
           </div>
         </article>
       </motion.div>
-    </div>
+      {index < count - 1 && <div aria-hidden="true" className="h-[13vh] min-h-[96px]" />}
+    </>
   );
 }
 
@@ -156,24 +127,25 @@ export default function Work() {
   return (
     <section
       id="projects"
-      className="scroll-mt-20 relative z-[3] bg-[#0C0C0C] px-[clamp(16px,3vw,32px)] pt-[clamp(70px,8vw,110px)] pb-5"
+      className="relative z-[3] -mt-[clamp(40px,5vw,56px)] scroll-mt-20 rounded-t-[clamp(40px,5vw,60px)] bg-[#0C0C0C] px-[clamp(16px,3vw,32px)] pb-5 pt-[clamp(90px,11vw,150px)]"
     >
-      <div className="max-w-[1200px] mx-auto">
+      <div className="mx-auto max-w-[1200px]">
         <FadeIn y={40}>
-          <h2 className="steel-text font-black uppercase tracking-[-.02em] leading-none text-[clamp(3rem,12vw,150px)] text-center mb-[clamp(36px,5vw,60px)]">
-            Projects
+          <h2 className="steel-text mb-[clamp(36px,5vw,60px)] text-center text-[clamp(3rem,12vw,150px)] font-black uppercase leading-none tracking-[-.02em]">
+            Project
           </h2>
         </FadeIn>
         <div ref={stackRef}>
-          {PROJECTS.map((project, i) => (
+          {PROJECTS.map((project, index) => (
             <ProjectCard
               key={project.slug}
               project={project}
-              index={i}
+              index={index}
               count={PROJECTS.length}
               progress={scrollYProgress}
             />
           ))}
+          <div aria-hidden="true" className="h-[30vh] min-h-[240px]" />
         </div>
       </div>
     </section>

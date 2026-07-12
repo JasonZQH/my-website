@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 
 // On-brand placeholder art: pairs of v3 accents + a faint dot texture,
@@ -24,9 +23,10 @@ type Props = {
 };
 
 /**
- * v3 image well: renders the real image when `src` is provided, and an
- * on-brand gradient placeholder (with dot texture) when it isn't or it fails
- * to load — so layouts look finished before real shots are wired in.
+ * Image well: renders a supplied image over a subtle placeholder treatment.
+ * A native image is intentional here: these reference assets live on several
+ * different hosts, and this avoids routing GIFs and remote artwork through
+ * Next's image optimizer.
  */
 export default function ImageSlot({ src, alt, className, variant = 0, sizes }: Props) {
   const [failed, setFailed] = useState(false);
@@ -47,12 +47,13 @@ export default function ImageSlot({ src, alt, className, variant = 0, sizes }: P
         }}
       />
       {showImage && (
-        <Image
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
           src={src}
           alt={alt}
-          fill
-          sizes={sizes ?? "(max-width: 768px) 90vw, 40vw"}
-          className="object-cover"
+          sizes={sizes}
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover"
           onError={() => setFailed(true)}
         />
       )}

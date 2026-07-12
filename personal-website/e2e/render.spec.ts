@@ -6,7 +6,7 @@ import { test, expect } from "@playwright/test";
 const SECTION_HEADINGS: RegExp[] = [
   /^about me$/i, // About
   /^experience$/i, // Experience
-  /^projects$/i, // Projects (Work.tsx)
+  /^project$/i, // Project stack (Work.tsx)
   /let.?s talk/i, // Contact
 ];
 

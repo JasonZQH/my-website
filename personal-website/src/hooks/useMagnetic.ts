@@ -3,9 +3,9 @@
 import { useEffect, useRef } from "react";
 
 /**
- * v3 magnetic hover: while the cursor is within `padding` px of the element's
- * box, translate the element toward the cursor by delta/strength; on leave,
- * ease back to rest. No-op under prefers-reduced-motion.
+ * Smooth magnetic hover. Pointer movement only updates the destination; a
+ * requestAnimationFrame loop eases the element toward it so it never snaps
+ * when the browser coalesces pointer events.
  */
 export function useMagnetic<T extends HTMLElement>({ strength = 3, padding = 150 } = {}) {
   const ref = useRef<T>(null);
@@ -15,8 +15,32 @@ export function useMagnetic<T extends HTMLElement>({ strength = 3, padding = 150
     if (!el) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    el.style.willChange = "transform";
-    let active = false;
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let frame: number | null = null;
+
+    const animate = () => {
+      currentX += (targetX - currentX) * 0.16;
+      currentY += (targetY - currentY) * 0.16;
+      el.style.transform = `translate3d(${currentX.toFixed(2)}px,${currentY.toFixed(2)}px,0)`;
+
+      if (Math.abs(targetX - currentX) > 0.05 || Math.abs(targetY - currentY) > 0.05) {
+        frame = window.requestAnimationFrame(animate);
+      } else {
+        currentX = targetX;
+        currentY = targetY;
+        frame = null;
+      }
+    };
+
+    const requestAnimation = () => {
+      if (frame === null) {
+        el.style.willChange = "transform";
+        frame = window.requestAnimationFrame(animate);
+      }
+    };
 
     const handleMove = (e: PointerEvent) => {
       const r = el.getBoundingClientRect();
@@ -26,20 +50,22 @@ export function useMagnetic<T extends HTMLElement>({ strength = 3, padding = 150
         e.clientY > r.top - padding &&
         e.clientY < r.bottom + padding;
       if (within) {
-        const dx = e.clientX - (r.left + r.width / 2);
-        const dy = e.clientY - (r.top + r.height / 2);
-        el.style.transition = "transform .3s ease-out";
-        el.style.transform = `translate3d(${dx / strength}px,${dy / strength}px,0)`;
-        active = true;
-      } else if (active) {
-        el.style.transition = "transform .6s ease-in-out";
-        el.style.transform = "translate3d(0,0,0)";
-        active = false;
+        targetX = (e.clientX - (r.left + r.width / 2)) / strength;
+        targetY = (e.clientY - (r.top + r.height / 2)) / strength;
+      } else {
+        targetX = 0;
+        targetY = 0;
       }
+      requestAnimation();
     };
 
     window.addEventListener("pointermove", handleMove, { passive: true });
-    return () => window.removeEventListener("pointermove", handleMove);
+    return () => {
+      window.removeEventListener("pointermove", handleMove);
+      if (frame !== null) window.cancelAnimationFrame(frame);
+      el.style.willChange = "";
+      el.style.transform = "";
+    };
   }, [strength, padding]);
 
   return ref;
