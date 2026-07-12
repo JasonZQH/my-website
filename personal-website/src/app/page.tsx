@@ -10,10 +10,10 @@ export default function Page() {
   return (
     <>
       <Hero />
-      <Marquee />
       <About />
-      <Experience />
+      <Marquee />
       <Work />
+      <Experience />
       <Contact />
       <Footer />
     </>

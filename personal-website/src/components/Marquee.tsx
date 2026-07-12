@@ -78,10 +78,10 @@ export default function Marquee() {
 
   return (
     <section
-      id="services"
+      id="capabilities"
       ref={sectionRef}
-      aria-label="Project preview gallery"
-      className="scroll-mt-20 overflow-hidden pt-[clamp(96px,11vw,160px)] pb-[clamp(36px,5vw,72px)]"
+      aria-label="Capability gallery"
+      className="scroll-mt-20 overflow-hidden pt-[clamp(96px,11vw,160px)] pb-[clamp(84px,9vw,128px)]"
     >
       <motion.div className="flex gap-3 will-change-transform" style={{ x: reduce ? -200 : xOne }}>
         <PreviewRow images={ROW_ONE} label="Featured" />

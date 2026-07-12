@@ -7,7 +7,7 @@ import FadeIn from "@/components/ui/FadeIn";
 import AuroraPill from "@/components/ui/AuroraPill";
 
 const TEXT =
-  "With a master's in computer science and five years building software, i focus on agentic ai, computer vision, and full-stack systems. i love working with teams that want to stand out and ship something intelligent — let's build something incredible together!";
+  "i move between product, systems, and ai without treating them as separate disciplines. i'm drawn to ambiguous problems, fast feedback, and ideas that only become clear once they are made. i adapt when the evidence changes, question familiar patterns, and care equally about how a product works and how it feels.";
 
 // Split once at module level — the string never changes.
 const CHARS = TEXT.split("");
@@ -16,25 +16,25 @@ const CHARS = TEXT.split("");
 const DECOR = [
   {
     pos: "top-[4%] left-[1%] w-[clamp(120px,16vw,210px)] sm:left-[2%] md:left-[4%]",
-    src: "https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/moon_icon.11395d36.png",
+    src: "/assets/about/moon.png",
     x: -80,
     delay: 0.1,
   },
   {
     pos: "top-[4%] right-[1%] w-[clamp(120px,16vw,210px)] sm:right-[2%] md:right-[4%]",
-    src: "https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/lego_icon-1.703bb594.png",
+    src: "/assets/about/lego.png",
     x: 80,
     delay: 0.15,
   },
   {
     pos: "bottom-[8%] left-[3%] w-[clamp(100px,14vw,180px)] sm:left-[6%] md:left-[10%]",
-    src: "https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/p59_1.4659672e.png",
+    src: "/assets/about/p59.png",
     x: -80,
     delay: 0.25,
   },
   {
     pos: "bottom-[8%] right-[3%] w-[clamp(130px,17vw,220px)] sm:right-[6%] md:right-[10%]",
-    src: "https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/Group_134-1.2e04f3ce.png",
+    src: "/assets/about/badge.png",
     x: 80,
     delay: 0.3,
   },

@@ -4,6 +4,14 @@ import FadeIn from "@/components/ui/FadeIn";
 import { useMagnetic } from "@/hooks/useMagnetic";
 import { NAV_LINKS } from "@/lib/navLinks";
 
+// Approved wording — quoted verbatim from the 1971 Pierre Berton interview
+// transcript; the closing line carries the visual emphasis.
+const QUOTE_LINES = [
+  "“Don't get set into one form,",
+  "adapt it and build your own,",
+  "and let it grow,",
+];
+
 export default function Hero() {
   const portraitRef = useMagnetic<HTMLDivElement>({ strength: 12, padding: 120 });
 
@@ -42,12 +50,29 @@ export default function Hero() {
       </FadeIn>
 
       <div className="relative z-20 mt-auto px-6 pb-7 sm:px-10 sm:pb-8 md:pb-10">
-        <FadeIn delay={0.35} y={20}>
-          <p className="max-w-[clamp(150px,22vw,260px)] font-light uppercase tracking-[.04em] leading-[1.35] text-[#D7E2EA] text-[clamp(.7rem,1.4vw,1.5rem)]">
-            an ai &amp; software engineer driven by building intelligent, striking, and
-            unforgettable products
-          </p>
-        </FadeIn>
+        {/* Attribution lives in the figcaption, outside the blockquote — the
+            spec treats everything inside blockquote as part of the quotation. */}
+        <figure className="max-w-[clamp(240px,32vw,430px)]">
+          <blockquote>
+            {QUOTE_LINES.map((line, i) => (
+              <FadeIn key={line} delay={0.45 + i * 0.14} y={16}>
+                <p className="font-light uppercase tracking-[.04em] leading-[1.35] text-[#D7E2EA] text-[clamp(.72rem,1.3vw,1.3rem)]">
+                  {line}
+                </p>
+              </FadeIn>
+            ))}
+            <FadeIn delay={0.92} y={18}>
+              <p className="steel-text mt-1 font-black uppercase leading-none tracking-[-.01em] text-[clamp(1.15rem,2.6vw,2.5rem)]">
+                be like water.&rdquo;
+              </p>
+            </FadeIn>
+          </blockquote>
+          <FadeIn delay={1.12} y={12}>
+            <figcaption className="mt-3 font-mono text-[clamp(.6rem,.8vw,.8rem)] uppercase tracking-[.22em] text-[#8B9298]">
+              — Bruce Lee
+            </figcaption>
+          </FadeIn>
+        </figure>
       </div>
     </header>
   );

@@ -17,7 +17,8 @@ const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 export const metadata: Metadata = {
   title: "Jason Zhang — AI/ML Software Engineer",
-  description: "Portfolio of Jason Zhang: agentic AI systems, computer vision, and full-stack products.",
+  description:
+    "A product-focused portfolio exploring AI systems, interactive software, computer vision, and agent orchestration.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -26,20 +27,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body
         className={`${kanit.variable} font-body antialiased text-[#E5E6EA] min-h-screen overflow-x-hidden`}
       >
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-          strategy="afterInteractive"
-        />
-        <Script id="ga-init" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_MEASUREMENT_ID}', {
-              page_path: window.location.pathname,
-            });
-          `}
-        </Script>
+        {GA_MEASUREMENT_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_MEASUREMENT_ID}', {
+                  page_path: window.location.pathname,
+                });
+              `}
+            </Script>
+          </>
+        )}
 
         <LiquidBackdrop />
         <Navbar />
