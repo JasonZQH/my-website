@@ -3,6 +3,7 @@ import Script from "next/script";
 import { Kanit } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import LiquidBackdrop from "@/components/LiquidBackdrop";
 
 // v3 uses a single family — Kanit — for display, body, and labels alike.
 // Only the weights actually used ship: light/normal/medium/semibold/black.
@@ -23,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body
-        className={`${kanit.variable} font-body antialiased bg-[#0C0C0C] text-[#D7E2EA] min-h-screen overflow-x-hidden`}
+        className={`${kanit.variable} font-body antialiased text-[#E5E6EA] min-h-screen overflow-x-hidden`}
       >
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
@@ -40,8 +41,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           `}
         </Script>
 
+        <LiquidBackdrop />
         <Navbar />
-        <main>{children}</main>
+        <main className="relative z-10">{children}</main>
       </body>
     </html>
   );

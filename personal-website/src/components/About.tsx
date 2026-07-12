@@ -40,7 +40,7 @@ const DECOR = [
   },
 ];
 
-// The source art stays borderless and dissolves into the #0C0C0C section,
+// The source art stays borderless and dissolves into the liquid page surface,
 // rather than reading as four separate square image tiles.
 const DECOR_FADE: CSSProperties = {
   WebkitMaskImage: "radial-gradient(ellipse 64% 64% at center, #000 34%, transparent 76%)",

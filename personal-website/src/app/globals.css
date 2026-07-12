@@ -3,17 +3,16 @@
 @tailwind utilities;
 
 :root {
-  /* v3 accent palette — plum → magenta → violet → burnt orange */
-  --acc1: #18011f;
-  --acc2: #b600a8;
-  --acc3: #7621b0;
-  --acc4: #be4c00;
+  --acc1: #351d45;
+  --acc2: #bb4f9f;
+  --acc3: #6965b5;
+  --acc4: #d27455;
+  --surface: #1b1922;
+  --surface-raised: rgba(33, 30, 42, .72);
 }
 
 html, body {
-  /* Paint the canvas itself (matches the v3 prototype): v3 sections rely on
-     the page background instead of setting their own. */
-  background: #0c0c0c;
+  background: var(--surface);
   margin: 0;
   padding: 0;
 }
@@ -23,22 +22,25 @@ html {
 }
 
 ::selection {
-  background: #b600a8;
+  background: #bb4f9f;
   color: #fff;
+}
+
+.liquid-canvas {
+  background: #1b1922;
+  display: block;
 }
 
 /* Steel gradient clipped to text — all big v3 section headings */
 .steel-text {
-  background: linear-gradient(180deg, #646973, #bbccd7);
+  background: linear-gradient(180deg, #f4f1f0 8%, #a8b1c0 84%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
 
-/* Aurora gradient clipped to text — footer wordmark.
-   Starts at --acc2, not --acc1: the plum #18011F is ~1.1:1 against the #0C0C0C
-   canvas, which rendered the wordmark's leading letters invisible. */
+/* Aurora gradient clipped to text — footer wordmark. */
 .aurora-text {
   background: linear-gradient(123deg, var(--acc2) 0%, var(--acc3) 58%, var(--acc4) 100%);
   -webkit-background-clip: text;

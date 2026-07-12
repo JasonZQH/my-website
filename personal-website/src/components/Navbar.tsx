@@ -25,7 +25,7 @@ export default function Navbar() {
       initial={false}
       animate={{ y: shown ? 0 : "-110%" }}
       transition={{ duration: reduce ? 0 : 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-      className="fixed top-0 left-0 w-full z-[100] flex items-center justify-between backdrop-blur-xl bg-[rgba(12,12,12,.6)] border-b border-[rgba(215,226,234,.1)] py-[14px] px-[clamp(20px,4vw,44px)]"
+      className="fixed top-0 left-0 w-full z-[100] flex items-center justify-between backdrop-blur-xl bg-[rgba(28,25,37,.62)] border-b border-[rgba(235,232,242,.14)] py-[14px] px-[clamp(20px,4vw,44px)]"
     >
       {/* Wordmark hides on phones — four links won't fit beside it */}
       <a

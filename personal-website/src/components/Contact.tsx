@@ -7,7 +7,7 @@ import AuroraPill from "@/components/ui/AuroraPill";
 const FIELDS = ["Software Engineering", "AI / ML", "Data Science", "Web Development", "Other"];
 
 const INPUT_CLASSES =
-  "w-full text-[15px] text-[#D7E2EA] bg-[#141414] border border-[rgba(215,226,234,.15)] rounded-xl px-[15px] py-[13px] outline-none focus:border-[#B600A8]";
+  "w-full text-[15px] text-[#E5E6EA] bg-[rgba(18,17,26,.5)] border border-[rgba(226,225,235,.18)] rounded-xl px-[15px] py-[13px] outline-none focus:border-[#D07AB5]";
 
 const LABEL_CLASSES =
   "block text-[13px] uppercase tracking-[.1em] text-[rgba(215,226,234,.7)] mb-[9px]";
@@ -64,7 +64,7 @@ export default function Contact() {
         <FadeIn delay={0.14} className="mt-[clamp(34px,5vw,54px)]">
           <form
             onSubmit={handleSubmit}
-            className="text-left bg-[rgba(255,255,255,.03)] border border-[rgba(215,226,234,.12)] rounded-[28px] p-[clamp(22px,3vw,40px)]"
+            className="text-left bg-[rgba(34,30,45,.52)] backdrop-blur-xl border border-[rgba(226,225,235,.16)] rounded-[28px] p-[clamp(22px,3vw,40px)]"
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-[18px]">
               <div>
@@ -119,7 +119,7 @@ export default function Contact() {
                   type="checkbox"
                   checked={canRefer}
                   onChange={(e) => setCanRefer(e.target.checked)}
-                  className="w-[17px] h-[17px] accent-[#B600A8]"
+                  className="w-[17px] h-[17px] accent-[#BB4F9F]"
                 />
                 I can offer a referral
               </label>
@@ -128,7 +128,7 @@ export default function Contact() {
                   type="checkbox"
                   checked={isRecruiter}
                   onChange={(e) => setIsRecruiter(e.target.checked)}
-                  className="w-[17px] h-[17px] accent-[#B600A8]"
+                  className="w-[17px] h-[17px] accent-[#BB4F9F]"
                 />
                 I&apos;m a recruiter
               </label>
