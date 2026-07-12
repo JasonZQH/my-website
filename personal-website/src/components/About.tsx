@@ -106,19 +106,23 @@ export default function About() {
         </h2>
       </FadeIn>
 
+      {/* Screen readers get the plain text via the sr-only span — aria-label on a
+          <p> is ignored (the paragraph role prohibits naming), so it can't carry it. */}
       <p
         ref={pRef}
-        aria-label={TEXT}
         className="relative z-[1] max-w-[560px] mx-auto font-medium leading-[1.7] text-[#D7E2EA] text-[clamp(1rem,2vw,1.35rem)]"
       >
         {reduce ? (
           TEXT
         ) : (
-          <span aria-hidden="true">
-            {CHARS.map((char, i) => (
-              <Char key={i} char={char} index={i} progress={scrollYProgress} />
-            ))}
-          </span>
+          <>
+            <span className="sr-only">{TEXT}</span>
+            <span aria-hidden="true">
+              {CHARS.map((char, i) => (
+                <Char key={i} char={char} index={i} progress={scrollYProgress} />
+              ))}
+            </span>
+          </>
         )}
       </p>
 

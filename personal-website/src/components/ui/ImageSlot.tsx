@@ -19,7 +19,6 @@ type Props = {
   className?: string;
   /** Which placeholder gradient to use (cycles mod 4). */
   variant?: number;
-  sizes?: string;
 };
 
 /**
@@ -28,7 +27,7 @@ type Props = {
  * different hosts, and this avoids routing GIFs and remote artwork through
  * Next's image optimizer.
  */
-export default function ImageSlot({ src, alt, className, variant = 0, sizes }: Props) {
+export default function ImageSlot({ src, alt, className, variant = 0 }: Props) {
   const [failed, setFailed] = useState(false);
   const showImage = src && !failed;
   return (
@@ -51,7 +50,6 @@ export default function ImageSlot({ src, alt, className, variant = 0, sizes }: P
         <img
           src={src}
           alt={alt}
-          sizes={sizes}
           loading="lazy"
           className="absolute inset-0 h-full w-full object-cover"
           onError={() => setFailed(true)}

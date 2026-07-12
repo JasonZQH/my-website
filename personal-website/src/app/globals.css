@@ -36,9 +36,11 @@ html {
   color: transparent;
 }
 
-/* Aurora gradient clipped to text — footer wordmark */
+/* Aurora gradient clipped to text — footer wordmark.
+   Starts at --acc2, not --acc1: the plum #18011F is ~1.1:1 against the #0C0C0C
+   canvas, which rendered the wordmark's leading letters invisible. */
 .aurora-text {
-  background: linear-gradient(123deg, var(--acc1) 7%, var(--acc2) 37%, var(--acc3) 72%, var(--acc4) 100%);
+  background: linear-gradient(123deg, var(--acc2) 0%, var(--acc3) 58%, var(--acc4) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

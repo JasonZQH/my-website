@@ -4,10 +4,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        // v3: one family (Kanit) everywhere — no monospace in the design.
-        display: ["var(--font-display)", "sans-serif"],
+        // v3: one family (Kanit) everywhere — body is the only alias in use.
         body: ["var(--font-display)", "sans-serif"],
-        mono: ["var(--font-display)", "sans-serif"],
       },
     },
   },

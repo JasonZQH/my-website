@@ -3,13 +3,7 @@
 import { useState } from "react";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
-
-const LINKS = [
-  { label: "About", href: "#about" },
-  { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
-];
+import { NAV_LINKS } from "@/lib/navLinks";
 
 /**
  * v3 reveal-on-scroll bar: hidden while the hero (with its own in-page nav)
@@ -41,7 +35,7 @@ export default function Navbar() {
         Jason Zhang
       </a>
       <div className="flex items-center w-full justify-between sm:w-auto sm:justify-normal sm:gap-[clamp(16px,3vw,40px)]">
-        {LINKS.map(({ label, href }) => (
+        {NAV_LINKS.map(({ label, href }) => (
           <a
             key={href}
             href={href}

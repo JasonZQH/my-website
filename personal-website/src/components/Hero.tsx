@@ -2,13 +2,7 @@
 
 import FadeIn from "@/components/ui/FadeIn";
 import { useMagnetic } from "@/hooks/useMagnetic";
-
-const NAV_LINKS = [
-  { label: "About", href: "#about" },
-  { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
-];
+import { NAV_LINKS } from "@/lib/navLinks";
 
 export default function Hero() {
   const portraitRef = useMagnetic<HTMLDivElement>({ strength: 12, padding: 120 });

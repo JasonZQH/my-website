@@ -1,36 +1,38 @@
-# Project screenshots — drop-in manifest
+# Project images — current wiring
 
-The v3 Projects section shows 3 image wells per project. Until a file is wired in,
-each well renders on-brand gradient placeholder art, so missing images never look broken.
+The Projects section (`src/components/Work.tsx`) currently shows the **reference
+design's placeholder projects** (Nextlevel Studio / Aura Brand Identity / Solaris
+Digital) with images hotlinked from the template's CDN. That look was chosen
+deliberately to match the reference template — but the content is not Jason's
+work, so swap it before launch.
 
-## Expected files (15 total)
+## Swapping in real projects
 
-| Project | Slot a (top-left) | Slot b (bottom-left) | Slot c (right, tall) |
-|---|---|---|---|
-| Tradgent | `tradgent-a.webp` | `tradgent-b.webp` | `tradgent-c.webp` |
-| EmojiCamera | `emojicamera-a.webp` | `emojicamera-b.webp` | `emojicamera-c.webp` |
-| Flight Subscription Service | `flight-subscription-a.webp` | `flight-subscription-b.webp` | `flight-subscription-c.webp` |
-| Advanced Car Bidding System | `car-bidding-a.webp` | `car-bidding-b.webp` | `car-bidding-c.webp` |
-| Vaccine Stock Forecast | `vaccine-forecast-a.webp` | `vaccine-forecast-b.webp` | `vaccine-forecast-c.webp` |
-
-- **a** — small landscape (~16:10), displayed ~84–150 px tall
-- **b** — landscape/square, displayed ~112–205 px tall
-- **c** — tall portrait (~3:4), fills the right column
-
-`.png` / `.jpg` also fine — just match the name you wire up. Source ~1280 px wide is plenty.
-
-## Wiring a shot in
-
-Each project in `src/components/Work.tsx` has an `images: { a?, b?, c? }` field.
-Drop the file here, then set the path, e.g.:
+Each entry in `PROJECTS` (Work.tsx) has:
 
 ```ts
-images: { a: "/projects/tradgent-a.webp" }
+{
+  category: "Client" | "Personal" | ...,   // small label above the title
+  title: "...",
+  href: "...",                              // Live Project link target
+  slug: "...",                              // React key
+  images: { a: "...", b: "...", c: "..." }, // top-left, bottom-left, right (tall)
+}
 ```
 
-Any subset works — unset slots keep their placeholder art.
+To use local screenshots instead of hotlinks: drop files in this folder and point
+the fields at them, e.g. `images: { a: "/projects/tradgent-a.webp", ... }`.
 
-## Optional: About-section decorations
+- **a** — small landscape well (top-left)
+- **b** — landscape/square well (bottom-left)
+- **c** — tall well (right, fills the card height)
 
-4 small square PNG renders (transparent bg) at `public/decor/1.png` … `4.png`,
-wired the same way in `src/components/About.tsx`. Omitted → gradient shapes.
+`ImageSlot` renders an on-brand gradient placeholder behind every image, so a
+missing/broken file degrades gracefully instead of showing a broken-image icon.
+
+## Other hotlinked template assets (same caveat)
+
+- Marquee belts: 21 GIFs from `motionsites.ai` (`src/components/Marquee.tsx`)
+- About decorations: 4 3D-object PNGs from the template's Figma site
+  (`src/components/About.tsx`)
+- Hero portrait: local — `public/assets/portrait/jason-hero-wink-smirk-v7.png`

@@ -5,10 +5,11 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 
 // v3 uses a single family — Kanit — for display, body, and labels alike.
+// Only the weights actually used ship: light/normal/medium/semibold/black.
 const kanit = Kanit({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600", "900"],
 });
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;

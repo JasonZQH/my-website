@@ -59,9 +59,21 @@ export function useMagnetic<T extends HTMLElement>({ strength = 3, padding = 150
       requestAnimation();
     };
 
+    // Pointer events stop when the cursor leaves the window or the tab blurs;
+    // without these the element stays frozen at its last displaced offset.
+    const reset = () => {
+      targetX = 0;
+      targetY = 0;
+      requestAnimation();
+    };
+
     window.addEventListener("pointermove", handleMove, { passive: true });
+    document.addEventListener("pointerleave", reset);
+    window.addEventListener("blur", reset);
     return () => {
       window.removeEventListener("pointermove", handleMove);
+      document.removeEventListener("pointerleave", reset);
+      window.removeEventListener("blur", reset);
       if (frame !== null) window.cancelAnimationFrame(frame);
       el.style.willChange = "";
       el.style.transform = "";

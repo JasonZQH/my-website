@@ -1,9 +1,18 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import FadeIn from "@/components/ui/FadeIn";
 
 const PILL_CLASSES =
   "inline-flex items-center text-sm uppercase tracking-[.1em] text-[#D7E2EA] border border-[rgba(215,226,234,.16)] px-[22px] py-[11px] rounded-full transition-colors hover:text-white";
 
 export default function Footer() {
+  // Computed client-side so a statically-built page can't freeze last year's
+  // date into the copyright; suppressHydrationWarning covers the rare build
+  // that straddles New Year's.
+  const [year, setYear] = useState(() => new Date().getFullYear());
+  useEffect(() => setYear(new Date().getFullYear()), []);
+
   return (
     <footer className="bg-[#0C0C0C] border-t border-[rgba(215,226,234,.1)] px-[clamp(20px,4vw,40px)] pt-[clamp(66px,8vw,110px)] pb-11">
       <div className="max-w-[1100px] mx-auto text-center">
@@ -44,8 +53,11 @@ export default function Footer() {
             Instagram
           </a>
         </div>
-        <div className="mt-[clamp(28px,4vw,46px)] font-light text-[.85rem] text-[rgba(215,226,234,.5)]">
-          © {new Date().getFullYear()} Jason Zhang · Designed &amp; built with care
+        <div
+          suppressHydrationWarning
+          className="mt-[clamp(28px,4vw,46px)] font-light text-[.85rem] text-[rgba(215,226,234,.5)]"
+        >
+          © {year} Jason Zhang · Designed &amp; built with care
         </div>
       </div>
     </footer>
