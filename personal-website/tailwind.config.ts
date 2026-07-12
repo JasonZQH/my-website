@@ -1,36 +1,14 @@
 // tailwind.config.js
-const { heroui } = require("@heroui/react");
-
 module.exports = {
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@heroui/theme/dist/components/slider.js",
-    "./node_modules/@heroui/react/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       fontFamily: {
-        display: ["var(--font-display)", "sans-serif"],
-        body: ["var(--font-body)", "sans-serif"],
-        mono: ["var(--font-mono)", "monospace"],
-      },
-      keyframes: {
-        gradientFlow: {
-          "0%": { "background-position": "0% 50%" },
-          "50%": { "background-position": "100% 50%" },
-          "100%": { "background-position": "0% 50%" },
-        },
-        breathe: {
-          '0%, 100%': {color: '#ffffff'},
-          '50%': {color: '#000000'}
-        }
-      },
-      animation: {
-        gradientText: "gradientFlow 5s ease infinite",
-        breathe: "breathe 2s ease-in-out infinite"
+        // v3: one family (Kanit) everywhere — body is the only alias in use.
+        body: ["var(--font-display)", "sans-serif"],
       },
     },
   },
   darkMode: "class",
-  plugins: [heroui(), require('daisyui'),],
+  plugins: [],
 };

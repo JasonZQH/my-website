@@ -14,6 +14,8 @@ Thumbs.db
 
 # SDD scratch (subagent-driven-development working dir)
 .superpowers/
+# Brainstorming / SDD specs & plans — keep local, never track
+docs/superpowers/
 
 # Playwright
 .playwright-mcp/

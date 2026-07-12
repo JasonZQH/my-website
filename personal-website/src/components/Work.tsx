@@ -1,147 +1,151 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useTilt } from "@/hooks/useTilt";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import FadeIn from "@/components/ui/FadeIn";
+import ImageSlot from "@/components/ui/ImageSlot";
 
-const FEATURED = {
-  range: "May 2025 — Dec 2025",
-  title: "Tradgent",
-  desc: "An AI-powered trading recommendation system delivering real-time, personalized insights. Built on FastAPI + Pydantic-AI with MongoDB and Redis; a conversational AI advisor surfaces live guidance and risk alerts.",
-  tags: ["FastAPI", "Pydantic-AI", "MongoDB", "Redis"],
+type Project = {
+  category: string;
+  title: string;
+  href: string;
+  slug: string;
+  images: { a: string; b: string; c: string };
 };
 
-const PROJECTS = [
+const PROJECTS: Project[] = [
   {
-    num: "02",
-    range: "Sep 2024 — Jan 2025",
-    title: "EmojiCamera",
-    desc: "Real-time facial-expression detection mapped to emojis. MobileNetV3 + attention hit 75% accuracy — co-authored a paper on lightweight FER models for low-cost compute.",
-    tags: ["MobileNetV3", "Computer Vision", "Publication"],
-    hover: "rgba(255,46,147,.4)",
+    category: "Client",
+    title: "Nextlevel Studio",
+    href: "#contact",
+    slug: "nextlevel-studio",
+    images: {
+      a: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055344_5eff02e0-87a5-41ce-b64f-eb08da8f33db.png&w=1280&q=85",
+      b: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055431_11d841fd-8b41-46a5-82e4-b04f2407a7d8.png&w=1280&q=85",
+      c: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055451_e317bf2d-28d4-48cc-86b0-6f72f25b6327.png&w=1280&q=85",
+    },
   },
   {
-    num: "03",
-    range: "Mar 2024 — May 2024",
-    title: "Flight Subscription Service",
-    desc: "A flight-deal alert platform integrating real-time flight APIs. Users subscribe to deals and searches; built with React, Node.js, and MySQL for performance at scale.",
-    tags: ["React", "Node.js", "MySQL"],
-    hover: "rgba(123,92,255,.4)",
+    category: "Personal",
+    title: "Aura Brand Identity",
+    href: "#contact",
+    slug: "aura-brand-identity",
+    images: {
+      a: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055654_911201c5-36d9-4bc6-bac7-331adfce159f.png&w=1280&q=85",
+      b: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055723_5ceda0b8-d9c2-4665-b2e3-83ba19ba76d1.png&w=1280&q=85",
+      c: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055753_adc5dcbd-a8e6-49c0-b43a-9b030d835cea.png&w=1280&q=85",
+    },
   },
   {
-    num: "04",
-    range: "Jan 2024 — Apr 2024",
-    title: "Advanced Car Bidding System",
-    desc: "A real-time car-auction platform with secure auth and dynamic bidding. Django + React + MySQL, Docker-deployed on GCP — improved usability, security, and scale.",
-    tags: ["Django", "GCP", "Docker"],
-    hover: "rgba(36,211,238,.4)",
-  },
-  {
-    num: "05",
-    range: "Sep 2022 — Dec 2022",
-    title: "Vaccine Stock Forecast",
-    desc: "Time-series forecasting (ARIMA / SARIMA) on Pfizer, J&J, and Moderna during COVID-19, trained on CDC data — a study in the limits of pandemic-only financial signals.",
-    tags: ["ARIMA", "Time Series", "Forecasting"],
-    hover: "rgba(255,90,60,.4)",
+    category: "Client",
+    title: "Solaris Digital",
+    href: "#contact",
+    slug: "solaris-digital",
+    images: {
+      a: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055759_963cfb0b-4bd1-4b0f-9d0a-09bd6cf95b2f.png&w=1280&q=85",
+      b: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_060108_438f781a-9846-4dcc-89ab-c4e6cb830f5b.png&w=1280&q=85",
+      c: "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055818_9d062121-ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85",
+    },
   },
 ];
 
-function FeaturedCard() {
-  const tiltRef = useTilt<HTMLAnchorElement>();
-  return (
-    <motion.a
-      ref={tiltRef}
-      href="#work"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.14 }}
-      transition={{ duration: 0.8 }}
-      className="block relative rounded-[26px] overflow-hidden border border-white/10 p-8 sm:p-11 mb-6 text-[#F4EEE3] transition-colors hover:border-white/[.28]"
-      style={{ background: "linear-gradient(140deg,rgba(255,90,60,.16),rgba(123,92,255,.16))" }}
-    >
-      <div className="relative flex justify-between items-start gap-5 flex-wrap">
-        <div className="max-w-[640px]">
-          <div className="flex items-center gap-3 mb-[18px]">
-            <span className="font-mono text-xs text-[#0B0711] bg-[#B8FF39] px-3 py-[5px] rounded-full font-bold">
-              FEATURED
-            </span>
-            <span className="font-mono text-xs text-[#8FE7F5]">{FEATURED.range}</span>
-          </div>
-          <h3 className="font-display font-extrabold text-[clamp(28px,3.4vw,42px)] leading-[1.02] tracking-[-.02em]">
-            {FEATURED.title}
-          </h3>
-          <p className="text-[#D4CEDD] text-[17px] leading-relaxed mt-3.5">{FEATURED.desc}</p>
-          <div className="flex flex-wrap gap-2 mt-[22px]">
-            {FEATURED.tags.map((t) => (
-              <span key={t} className="font-mono text-xs border border-white/20 px-3 py-[5px] rounded-full text-[#C9C2D4]">
-                {t}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div className="font-display font-extrabold text-[64px] text-white/[.14] leading-none">01</div>
-      </div>
-    </motion.a>
-  );
-}
+const WELL_RADIUS = "rounded-[clamp(24px,3vw,60px)]";
 
-function ProjectCard({ project, delay }: { project: (typeof PROJECTS)[number]; delay: number }) {
-  const tiltRef = useTilt<HTMLAnchorElement>();
+function ProjectCard({
+  project,
+  index,
+  count,
+  progress,
+}: {
+  project: Project;
+  index: number;
+  count: number;
+  progress: MotionValue<number>;
+}) {
+  const reduce = usePrefersReducedMotion();
+  const targetScale = 1 - (count - 1 - index) * 0.03;
+  const scale = useTransform(progress, [index / count, 1], [1, targetScale]);
+  const num = String(index + 1).padStart(2, "0");
+
   return (
-    <motion.a
-      ref={tiltRef}
-      href="#work"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.14 }}
-      transition={{ duration: 0.8, delay }}
-      className="block relative rounded-[22px] bg-[#130C1F] border border-white/[.08] p-8 text-[#F4EEE3] overflow-hidden transition-colors hover:[border-color:var(--hover-c)]"
-      style={{ "--hover-c": project.hover } as React.CSSProperties}
-    >
-      <div className="flex justify-between items-start">
-        <span className="font-mono text-xs text-[#8FE7F5]">{project.range}</span>
-        <span className="font-display font-extrabold text-[34px] text-white/[.12]">{project.num}</span>
-      </div>
-      <h3 className="font-display font-extrabold text-2xl mt-3.5 leading-[1.05]">{project.title}</h3>
-      <p className="text-[#C9C2D4] text-[15px] leading-relaxed mt-3">{project.desc}</p>
-      <div className="flex flex-wrap gap-[7px] mt-[18px]">
-        {project.tags.map((t) => (
-          <span key={t} className="font-mono text-[11px] border border-white/[.18] px-2.5 py-1 rounded-full text-[#B7AFC2]">
-            {t}
-          </span>
-        ))}
-      </div>
-    </motion.a>
+    <>
+      <motion.div
+        className="sticky h-[72vh] min-h-[500px] will-change-transform"
+        style={{
+          top: `calc(clamp(1.5rem, 3vw, 2rem) + ${index * 28}px)`,
+          zIndex: index + 1,
+          scale: reduce ? 1 : scale,
+          transformOrigin: "top center",
+        }}
+      >
+        <article className="flex h-full flex-col rounded-[clamp(32px,4vw,60px)] border-2 border-[#D7E2EA] bg-[#0C0C0C] p-[clamp(16px,2.2vw,32px)]">
+          <div className="mb-[clamp(16px,2.2vw,26px)] flex flex-wrap items-start justify-between gap-5 px-[clamp(4px,1vw,12px)]">
+            <div className="flex items-baseline gap-[clamp(14px,2vw,28px)]">
+              <span className="steel-text font-black leading-[.8] text-[clamp(2.4rem,7vw,92px)]">{num}</span>
+              <div>
+                <div className="text-[clamp(.66rem,1vw,.88rem)] uppercase tracking-[.16em] text-[#8B9298]">
+                  {project.category}
+                </div>
+                <h3 className="mt-1 text-[clamp(1.3rem,3vw,2.4rem)] font-semibold leading-[1.05]">
+                  {project.title}
+                </h3>
+              </div>
+            </div>
+            <a
+              href={project.href}
+              className="inline-flex whitespace-nowrap rounded-full border-2 border-[#D7E2EA] px-[clamp(22px,2.4vw,34px)] py-[11px] text-[clamp(.7rem,1vw,.95rem)] font-medium uppercase tracking-[.14em] text-[#D7E2EA] transition-colors hover:bg-[rgba(215,226,234,.1)]"
+            >
+              Live Project
+            </a>
+          </div>
+          <div className="flex min-h-0 flex-1 items-stretch gap-[clamp(10px,1.4vw,18px)]">
+            <div className="flex min-h-0 flex-[0_0_40%] flex-col gap-[clamp(10px,1.4vw,18px)]">
+              <ImageSlot src={project.images.a} alt={`${project.title} project image one`} className={`min-h-0 flex-[0_0_40%] ${WELL_RADIUS}`} />
+              <ImageSlot src={project.images.b} alt={`${project.title} project image two`} className={`min-h-0 flex-1 ${WELL_RADIUS}`} />
+            </div>
+            <ImageSlot
+              src={project.images.c}
+              alt={`${project.title} project image three`}
+              className={`min-h-0 flex-1 ${WELL_RADIUS}`}
+            />
+          </div>
+        </article>
+      </motion.div>
+      {index < count - 1 && <div aria-hidden="true" className="h-[13vh] min-h-[96px]" />}
+    </>
   );
 }
 
 export default function Work() {
+  const stackRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: stackRef,
+    offset: ["start start", "end end"],
+  });
+
   return (
-    <section id="work" className="scroll-mt-[90px] bg-[#0B0711] text-[#F4EEE3] px-6 sm:px-10 pt-10 pb-[130px]">
-      <div className="max-w-[1160px] mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.14 }}
-          transition={{ duration: 0.8 }}
-          className="flex items-end justify-between gap-6 mb-14 flex-wrap"
-        >
-          <div>
-            <div className="font-mono text-xs tracking-[.24em] uppercase text-[#FF2E93] mb-4">/ selected work</div>
-            <h2 className="font-display font-extrabold text-[clamp(34px,4.8vw,60px)] leading-none tracking-[-.02em]">
-              Projects &amp; publications
-            </h2>
-          </div>
-          <div className="font-mono text-[13px] text-[#8B8397] max-w-[280px]">
-            Real-time AI, computer vision, and full-stack systems.
-          </div>
-        </motion.div>
-
-        <FeaturedCard />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {PROJECTS.map((p, i) => (
-            <ProjectCard key={p.title} project={p} delay={i % 2 === 1 ? 0.08 : 0} />
+    <section
+      id="projects"
+      className="relative z-[3] -mt-[clamp(40px,5vw,56px)] scroll-mt-20 rounded-t-[clamp(40px,5vw,60px)] bg-[#0C0C0C] px-[clamp(16px,3vw,32px)] pb-5 pt-[clamp(90px,11vw,150px)]"
+    >
+      <div className="mx-auto max-w-[1200px]">
+        <FadeIn y={40}>
+          <h2 className="steel-text mb-[clamp(36px,5vw,60px)] text-center text-[clamp(3rem,12vw,150px)] font-black uppercase leading-none tracking-[-.02em]">
+            Project
+          </h2>
+        </FadeIn>
+        <div ref={stackRef}>
+          {PROJECTS.map((project, index) => (
+            <ProjectCard
+              key={project.slug}
+              project={project}
+              index={index}
+              count={PROJECTS.length}
+              progress={scrollYProgress}
+            />
           ))}
+          <div aria-hidden="true" className="h-[30vh] min-h-[240px]" />
         </div>
       </div>
     </section>

@@ -2,13 +2,12 @@ import { test, expect } from "@playwright/test";
 
 // Section headings whose content is revealed client-side (framer-motion whileInView).
 // If the JS fails to load or hydrate, these render blank — exactly the "empty
-// content" regression this guards against.
+// content" regression this guards against. (v3 headings.)
 const SECTION_HEADINGS: RegExp[] = [
-  /Engineer at the intersection/i, // About
-  /The stack I build with/i, // Stack
-  /Experience .* education/i, // Experience
-  /Projects .* publications/i, // Work
-  /Let.?s build/i, // Contact
+  /^about me$/i, // About
+  /^experience$/i, // Experience
+  /^project$/i, // Project stack (Work.tsx)
+  /let.?s talk/i, // Contact
 ];
 
 test("homepage loads with no failed _next assets (catches 404'd JS chunks)", async ({ page }) => {
