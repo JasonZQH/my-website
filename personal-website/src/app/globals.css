@@ -49,13 +49,223 @@ html {
   color: transparent;
 }
 
-/* Shared film-grain overlay — capability tiles and coded project panels.
-   One CSS layer instead of grain baked into every asset. */
+/* Shared film-grain overlay for static card artwork. */
 .texture-grain {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   opacity: .06;
   mix-blend-mode: overlay;
   pointer-events: none;
+}
+
+/* ---------- Static tech-art cards ---------- */
+
+.tech-card,
+.project-card {
+  --art-accent: #6965b5;
+  border: 1px solid rgba(215, 226, 234, .18);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .2), inset 0 1px rgba(255, 255, 255, .04);
+}
+
+.tech-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  background:
+    radial-gradient(100% 88% at 8% 0%, color-mix(in srgb, var(--art-accent) 18%, transparent), transparent 62%),
+    linear-gradient(145deg, rgba(39, 36, 49, .96), rgba(20, 19, 28, .97));
+}
+
+.capability-card-media {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(215, 226, 234, .12);
+  background: #15141b;
+}
+
+.card-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(8, 8, 13, .02) 20%, rgba(8, 8, 13, .52) 100%);
+}
+
+.capability-index {
+  position: absolute;
+  top: 16px;
+  left: 18px;
+  color: rgba(244, 241, 240, .78);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .65rem;
+  letter-spacing: .16em;
+}
+
+.capability-card-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 14px 16px;
+}
+
+.capability-card-label h3 {
+  margin: 0;
+  color: rgba(215, 226, 234, .82);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .6rem;
+  font-weight: 400;
+  letter-spacing: .13em;
+  line-height: 1.45;
+}
+
+/* The capability cards keep the original two-belt marquee motion. The art
+   stays static inside each frame, so the only movement is the intentional
+   scroll-scrubbed horizontal travel. */
+.marquee-capability-card {
+  display: flex;
+  width: clamp(250px, 28vw, 420px);
+  height: clamp(160px, 18vw, 270px);
+  flex: 0 0 auto;
+  flex-direction: column;
+  border-radius: 18px;
+}
+
+.marquee-capability-card .capability-card-media {
+  min-height: 0;
+  flex: 1 1 auto;
+  aspect-ratio: auto;
+}
+
+.marquee-capability-card .capability-card-label {
+  min-height: 48px;
+  padding: 10px 14px;
+}
+
+.capability-dot,
+.project-status > span {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: var(--art-accent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--art-accent) 60%, transparent);
+}
+
+.project-card {
+  display: grid;
+  overflow: hidden;
+  border-radius: clamp(30px, 4vw, 54px);
+  background:
+    radial-gradient(78% 94% at 100% 0%, color-mix(in srgb, var(--art-accent) 14%, transparent), transparent 70%),
+    var(--project-surface);
+}
+
+.project-card-media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #111018;
+}
+
+.project-card-vignette {
+  background:
+    linear-gradient(180deg, rgba(7, 7, 12, .02) 34%, rgba(7, 7, 12, .34) 100%),
+    linear-gradient(90deg, rgba(7, 7, 12, .28), transparent 48%);
+}
+
+.project-art-caption {
+  position: absolute;
+  right: 18px;
+  bottom: 16px;
+  left: 18px;
+  margin: 0;
+  color: rgba(244, 241, 240, .76);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .58rem;
+  letter-spacing: .17em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.project-card-content {
+  padding: clamp(24px, 4vw, 58px);
+}
+
+.project-number {
+  font-size: clamp(3.6rem, 8vw, 7rem);
+  font-weight: 900;
+  line-height: .72;
+}
+
+.project-status {
+  display: inline-flex;
+  max-width: 19ch;
+  align-items: center;
+  gap: 8px;
+  color: #a8b1c0;
+  font-size: .62rem;
+  letter-spacing: .13em;
+  line-height: 1.35;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.project-metadata {
+  margin: 0;
+  color: #8b9298;
+  font-size: .68rem;
+  letter-spacing: .16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.project-tag {
+  border: 1px solid rgba(215, 226, 234, .18);
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: rgba(215, 226, 234, .72);
+  font-size: .62rem;
+  letter-spacing: .12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* The compact project stack is content-height driven. Its breakpoint matches
+   the point where the desktop editorial split becomes available, avoiding an
+   in-between layout that could show a tall image before its card copy. */
+@media (max-width: 1023px) {
+  .project-card {
+    border-radius: 26px;
+  }
+
+  .project-card-media {
+    display: none;
+  }
+
+  .project-card-content {
+    padding: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .project-card {
+    grid-template-columns: minmax(0, .96fr) minmax(380px, .9fr);
+    min-height: 580px;
+  }
+
+  .project-card-media {
+    order: 2;
+    aspect-ratio: auto;
+    min-height: 580px;
+  }
+
+  .project-card-content {
+    order: 1;
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: center;
+  }
 }
 
 /* ---------- Stage 3 motion ---------- */
@@ -79,128 +289,8 @@ html {
   to { background-position: -90% 0, 0 0; }
 }
 
-/* Capability-loop animations. Tiles run only while the marquee is on screen
-   (data-caps-playing toggled by an IntersectionObserver); --capDelay
-   desynchronizes duplicated tiles. All loops share one 3.6s period. */
-.cap-anim {
-  animation-play-state: paused;
-}
-[data-caps-playing="true"] .cap-anim {
-  animation-play-state: running;
-}
-.cap-comet {
-  stroke-dasharray: 14 86;
-  animation-name: cap-comet;
-  animation-duration: 3.6s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-delay: var(--capDelay, 0s);
-}
-@keyframes cap-comet {
-  from { stroke-dashoffset: 100; }
-  to { stroke-dashoffset: 0; }
-}
-/* Longhand only — the animation shorthand would reset animation-play-state
-   and defeat the .cap-anim pause. */
-.cap-pulse {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation-name: cap-pulse;
-  animation-duration: 3.6s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  animation-delay: var(--capDelay, 0s);
-}
-@keyframes cap-pulse {
-  0%, 100% { opacity: .6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.1); }
-}
-.cap-ping {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation-name: cap-ping;
-  animation-duration: 3.6s;
-  animation-timing-function: cubic-bezier(0, 0, .2, 1);
-  animation-iteration-count: infinite;
-  animation-delay: var(--capDelay, 0s);
-}
-@keyframes cap-ping {
-  0% { transform: scale(.4); opacity: .9; }
-  65%, 100% { transform: scale(1.12); opacity: 0; }
-}
-.cap-blink {
-  animation-name: cap-blink;
-  animation-duration: 3.6s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  animation-delay: var(--capDelay, 0s);
-}
-@keyframes cap-blink {
-  0%, 55%, 100% { opacity: .3; }
-  15%, 35% { opacity: 1; }
-}
-.cap-march {
-  animation-name: cap-march;
-  animation-duration: 3.6s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  animation-delay: var(--capDelay, 0s);
-}
-@keyframes cap-march {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(9px); }
-}
-.cap-measure {
-  transform-box: fill-box;
-  transform-origin: left center;
-  animation-name: cap-measure;
-  animation-duration: 3.6s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  animation-delay: var(--capDelay, 0s);
-}
-@keyframes cap-measure {
-  0%, 100% { transform: scaleX(1); }
-  50% { transform: scaleX(.55); }
-}
-
-/* EmojiCam cursor zones — the card's data-zone (0 neutral / 1 happy /
-   2 surprise) crossfades the matching panel layers. */
-.ec-layer {
-  transition: opacity .25s ease;
-}
-[data-zone="0"] .ec-not0,
-[data-zone="1"] .ec-not1,
-[data-zone="2"] .ec-not2 {
-  opacity: 0;
-}
-
-/* YourPassenger hover: one warm voice pulse (runs once per hover entry).
-   Gated to real hover devices so a touch tap's sticky :hover can't fire it —
-   matching Tailwind's hoverOnlyWhenSupported for the other card interactions. */
-@media (hover: hover) and (pointer: fine) {
-  .group:hover .pp-pulse {
-    animation: pp-pulse 1.4s ease-out 1;
-  }
-}
-.pp-pulse {
-  transform-box: fill-box;
-  transform-origin: center;
-}
-@keyframes pp-pulse {
-  0% { transform: scale(.92); opacity: .4; }
-  45% { transform: scale(1.14); opacity: 1; }
-  100% { transform: scale(1); opacity: .8; }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .cap-anim,
-  .water-sheen,
-  .pp-pulse,
-  .group:hover .pp-pulse {
+  .water-sheen {
     animation: none !important;
-  }
-  .ec-layer {
-    transition: none;
   }
 }

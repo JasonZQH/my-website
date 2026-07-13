@@ -37,11 +37,15 @@ export default function Hero() {
         </h1>
       </FadeIn>
 
-      {/* Mobile centers via auto margins (a transform-based -translate-x-1/2
-          gets overridden by FadeIn's own inline transform and clips off-edge);
-          md+ keeps the composition's off-center placement. */}
-      <FadeIn delay={0.6} y={30} className="pointer-events-none absolute inset-x-0 mx-auto -bottom-3 z-10 w-[clamp(320px,50vw,640px)] md:inset-x-auto md:left-[48%] md:mx-0 md:-translate-x-1/2 md:-bottom-5">
-        <div ref={portraitRef} className="pointer-events-auto relative">
+      {/* The mobile portrait is centered by its parent flex layout instead of
+          translates, which FadeIn owns inline. Desktop keeps its deliberate
+          off-center, bottom-anchored composition. */}
+      <FadeIn
+        delay={0.6}
+        y={30}
+        className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center md:inset-x-auto md:top-auto md:left-[48%] md:-bottom-5 md:block"
+      >
+        <div ref={portraitRef} data-hero-portrait className="pointer-events-auto relative w-[clamp(320px,50vw,640px)]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/assets/portrait/jason-hero-wink-smirk-v7.webp"
