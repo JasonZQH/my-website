@@ -175,9 +175,13 @@ html {
   opacity: 0;
 }
 
-/* YourPassenger hover: one warm voice pulse (runs once per hover entry). */
-.group:hover .pp-pulse {
-  animation: pp-pulse 1.4s ease-out 1;
+/* YourPassenger hover: one warm voice pulse (runs once per hover entry).
+   Gated to real hover devices so a touch tap's sticky :hover can't fire it —
+   matching Tailwind's hoverOnlyWhenSupported for the other card interactions. */
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .pp-pulse {
+    animation: pp-pulse 1.4s ease-out 1;
+  }
 }
 .pp-pulse {
   transform-box: fill-box;

@@ -26,7 +26,7 @@ function CapabilityRow({ items }: { items: typeof CAPABILITIES }) {
               className="h-[6px] w-[6px] flex-none rounded-full"
               style={{ background: cap.accent }}
             />
-            <span className="overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[9.5px] uppercase tracking-[.16em] text-[rgba(215,226,234,.72)]">
+            <span className="overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[9.5px] tracking-[.16em] text-[rgba(215,226,234,.72)]">
               {cap.label}
             </span>
           </div>

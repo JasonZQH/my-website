@@ -122,18 +122,20 @@ export function LiveVoice() {
           </span>
         ))}
       </div>
-      {/* one warm voice pulse per hover entry */}
-      <svg
+      {/* one warm voice pulse per hover entry — the wrapper owns the centering
+          translate so the pp-pulse scale keyframes never discard it. */}
+      <div
         aria-hidden="true"
-        className="pp-pulse absolute left-1/2 top-[33%] h-[30%] -translate-x-1/2 -translate-y-1/2"
-        viewBox="0 0 200 200"
+        className="pointer-events-none absolute left-1/2 top-[33%] aspect-square h-[30%] -translate-x-1/2 -translate-y-1/2"
       >
-        <circle cx="100" cy="100" r="92" fill="none" stroke={AMBER} strokeWidth="1" opacity=".08" />
-        <circle cx="100" cy="100" r="66" fill="none" stroke={AMBER} strokeWidth="1.2" opacity=".18" />
-        <circle cx="100" cy="100" r="42" fill="none" stroke={AMBER} strokeWidth="1.5" opacity=".38" />
-        <circle cx="100" cy="100" r="20" fill="none" stroke={AMBER} strokeWidth="2" opacity=".7" />
-        <circle cx="100" cy="100" r="7" fill={AMBER} />
-      </svg>
+        <svg className="pp-pulse h-full w-full" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="92" fill="none" stroke={AMBER} strokeWidth="1" opacity=".08" />
+          <circle cx="100" cy="100" r="66" fill="none" stroke={AMBER} strokeWidth="1.2" opacity=".18" />
+          <circle cx="100" cy="100" r="42" fill="none" stroke={AMBER} strokeWidth="1.5" opacity=".38" />
+          <circle cx="100" cy="100" r="20" fill="none" stroke={AMBER} strokeWidth="2" opacity=".7" />
+          <circle cx="100" cy="100" r="7" fill={AMBER} />
+        </svg>
+      </div>
       <div className="absolute inset-x-[9%] bottom-[7%] flex flex-col gap-4">
         <div>
           <div className="font-mono text-[8px] uppercase tracking-[.24em] text-[rgba(215,226,234,.4)]">You</div>

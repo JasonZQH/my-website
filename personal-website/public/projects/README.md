@@ -1,10 +1,12 @@
 # Project images — current wiring
 
 The Projects section (`src/components/Work.tsx`) shows Jason's three real
-projects (CURATOR / EmojiCam / YourPassenger). Their visual panels render
-`ImageSlot` placeholder art until the Stage-2 artwork lands.
+projects (CURATOR / EmojiCam / YourPassenger). Each panel is a coded React
+component (`src/components/projects/*Panels.tsx`), so no image files are
+needed. Setting a visual's `asset` path overrides the coded panel with an
+`ImageSlot` image instead.
 
-## Adding the panel art
+## Overriding a panel with an image
 
 Each entry in `PROJECTS` (Work.tsx) is a `ProjectCardData` whose `visuals`
 array holds exactly three panels:
@@ -12,7 +14,7 @@ array holds exactly three panels:
 ```ts
 visuals: [
   { id: "workbench", type: "product", alt: "...", asset: "/projects/curator-workbench.webp" },
-  // asset omitted → on-brand gradient placeholder renders instead
+  // asset omitted → the coded panel renders (the default for all three projects)
 ]
 ```
 
@@ -26,9 +28,9 @@ Drop files in this folder and point `asset` at them. Panel geometry:
 missing/broken file degrades gracefully instead of showing a broken-image icon.
 Prefer AVIF/WebP under ~300 KB per still, exported at ~2× rendered size.
 
-## Remaining hotlinked template assets
+## Local media inventory
 
-- Marquee belts: 21 GIFs from `motionsites.ai` (`src/components/Marquee.tsx`) —
-  replaced by the 12 capability loops in Stages 2–3.
-- Hero portrait: local — `public/assets/portrait/jason-hero-wink-smirk-v7.png`
-- About decorations: local — `public/assets/about/*.png`
+No remote/template assets remain. Hero portrait:
+`public/assets/portrait/jason-hero-wink-smirk-v7.webp`; About decorations:
+`public/assets/about/*.png`; marquee tiles and project panels are coded
+components (`src/components/capability/`, `src/components/projects/`).

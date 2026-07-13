@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type ComponentType, type PointerEvent } from "react";
+import { useEffect, useRef, useState, type ComponentType, type PointerEvent } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import FadeIn from "@/components/ui/FadeIn";
@@ -189,6 +189,18 @@ function ProjectCard({
   const num = String(index + 1).padStart(2, "0");
   const linked = project.cta.href && !project.cta.disabled;
 
+  // The sticky stack is a desktop treatment: on mobile the cards are taller
+  // than the viewport, so a stuck card would hide its bottom panel. Below the
+  // sm breakpoint they fall back to normal flow (no sticky, no top, no scale).
+  const [stacked, setStacked] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 640px)");
+    const update = () => setStacked(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
   // EmojiCam only: horizontal cursor position picks the expression zone
   // (0 neutral / 1 happy / 2 surprise); panels crossfade via [data-zone].
   const zoned = project.id === "emojicam";
@@ -203,11 +215,11 @@ function ProjectCard({
   return (
     <>
       <motion.div
-        className="sticky h-[72vh] min-h-[540px] will-change-transform"
+        className="relative will-change-transform sm:sticky sm:h-[72vh] sm:min-h-[540px]"
         style={{
-          top: `calc(clamp(1.5rem, 3vw, 2rem) + ${index * 28}px)`,
+          top: stacked ? `calc(clamp(1.5rem, 3vw, 2rem) + ${index * 28}px)` : undefined,
           zIndex: index + 1,
-          scale: reduce ? 1 : scale,
+          scale: reduce || !stacked ? 1 : scale,
           transformOrigin: "top center",
         }}
       >
@@ -287,26 +299,36 @@ function ProjectCard({
           </FadeIn>
 
           <motion.div
-            className="flex min-h-0 flex-1 items-stretch gap-[clamp(10px,1.4vw,18px)]"
+            className="flex min-h-0 flex-1 flex-col items-stretch gap-[clamp(10px,1.4vw,18px)] sm:flex-row"
             initial={reduce ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.03 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={reduce ? { duration: 0 } : { duration: 0.7, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
           >
-            <div className="flex min-h-0 flex-[0_0_40%] flex-col gap-[clamp(10px,1.4vw,18px)]">
-              <PanelWell project={project} slot={0} variant={index * 3} className={`min-h-0 flex-[0_0_40%] ${WELL_RADIUS}`} />
-              <PanelWell project={project} slot={1} variant={index * 3 + 1} className={`min-h-0 flex-1 ${WELL_RADIUS}`} />
+            <div className="flex min-h-0 flex-row gap-[clamp(10px,1.4vw,18px)] sm:flex-[0_0_40%] sm:flex-col">
+              <PanelWell
+                project={project}
+                slot={0}
+                variant={index * 3}
+                className={`aspect-[16/10] min-h-0 flex-1 sm:aspect-auto sm:flex-[0_0_40%] ${WELL_RADIUS}`}
+              />
+              <PanelWell
+                project={project}
+                slot={1}
+                variant={index * 3 + 1}
+                className={`aspect-[16/10] min-h-0 flex-1 sm:aspect-auto ${WELL_RADIUS}`}
+              />
             </div>
             <PanelWell
               project={project}
               slot={2}
               variant={index * 3 + 2}
-              className={`min-h-0 flex-1 ${WELL_RADIUS} transition duration-300 group-hover:brightness-[1.06]`}
+              className={`order-first aspect-[4/3] min-h-0 w-full sm:order-none sm:aspect-auto sm:w-auto sm:flex-1 ${WELL_RADIUS} transition duration-300 group-hover:brightness-[1.06]`}
             />
           </motion.div>
         </article>
       </motion.div>
-      {index < count - 1 && <div aria-hidden="true" className="h-[13vh] min-h-[96px]" />}
+      {index < count - 1 && <div aria-hidden="true" className="h-6 sm:h-[13vh] sm:min-h-[96px]" />}
     </>
   );
 }
@@ -339,7 +361,7 @@ export default function Work() {
               progress={scrollYProgress}
             />
           ))}
-          <div aria-hidden="true" className="h-[30vh] min-h-[240px]" />
+          <div aria-hidden="true" className="h-10 sm:h-[30vh] sm:min-h-[240px]" />
         </div>
       </div>
     </section>

@@ -37,12 +37,18 @@ export default function Hero() {
         </h1>
       </FadeIn>
 
-      <FadeIn delay={0.6} y={30} className="pointer-events-none absolute -bottom-3 left-[48%] z-10 w-[clamp(320px,50vw,640px)] -translate-x-1/2 md:-bottom-5">
+      {/* Mobile centers via auto margins (a transform-based -translate-x-1/2
+          gets overridden by FadeIn's own inline transform and clips off-edge);
+          md+ keeps the composition's off-center placement. */}
+      <FadeIn delay={0.6} y={30} className="pointer-events-none absolute inset-x-0 mx-auto -bottom-3 z-10 w-[clamp(320px,50vw,640px)] md:inset-x-auto md:left-[48%] md:mx-0 md:-translate-x-1/2 md:-bottom-5">
         <div ref={portraitRef} className="pointer-events-auto relative">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/assets/portrait/jason-hero-wink-smirk-v7.png"
+            src="/assets/portrait/jason-hero-wink-smirk-v7.webp"
             alt="3D portrait of Jason"
+            width={1254}
+            height={1254}
+            fetchPriority="high"
             draggable={false}
             className="block h-auto w-full select-none"
           />
