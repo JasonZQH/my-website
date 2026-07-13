@@ -1,10 +1,13 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type ComponentType } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import FadeIn from "@/components/ui/FadeIn";
 import ImageSlot from "@/components/ui/ImageSlot";
+import { CURATOR_PANELS } from "@/components/projects/CuratorPanels";
+import { EMOJICAM_PANELS } from "@/components/projects/EmojiCamPanels";
+import { PASSENGER_PANELS } from "@/components/projects/PassengerPanels";
 
 type ProjectVisual = {
   id: string;
@@ -47,11 +50,6 @@ const PROJECTS: ProjectCardData[] = [
     },
     visuals: [
       {
-        id: "workbench",
-        type: "product",
-        alt: "Reconstructed CURATOR workbench TUI: writer, verifier, reviewer and human-gate rows with live run statuses",
-      },
-      {
         id: "scheduler-loop",
         type: "system",
         alt: "CURATOR scheduler loop from writer to verifier to reviewer to human gate, with retry, pause, revise-scope, stop and resume branches",
@@ -60,6 +58,11 @@ const PROJECTS: ProjectCardData[] = [
         id: "evidence-ledger",
         type: "product",
         alt: "CURATOR evidence ledger table listing run, provider, verification, evidence hash, decision and checkpoint",
+      },
+      {
+        id: "workbench",
+        type: "product",
+        alt: "Reconstructed CURATOR workbench TUI: writer, verifier, reviewer and human-gate rows with live run statuses",
       },
     ],
   },
@@ -82,9 +85,9 @@ const PROJECTS: ProjectCardData[] = [
     },
     visuals: [
       {
-        id: "live-expression",
+        id: "emoji-response",
         type: "product",
-        alt: "Synthetic face with landmark overlay and live expression probabilities from the EmojiCam classifier",
+        alt: "Recommended emoji with confidence score above a simplified mobile messaging surface",
       },
       {
         id: "emotion-spectrum",
@@ -92,9 +95,9 @@ const PROJECTS: ProjectCardData[] = [
         alt: "Spectrum of EmojiCam's seven expression classes with the active emotion highlighted",
       },
       {
-        id: "emoji-response",
+        id: "live-expression",
         type: "product",
-        alt: "Recommended emoji with confidence score above a simplified mobile messaging surface",
+        alt: "Synthetic face with landmark overlay and live expression probabilities from the EmojiCam classifier",
       },
     ],
   },
@@ -114,9 +117,9 @@ const PROJECTS: ProjectCardData[] = [
     },
     visuals: [
       {
-        id: "live-voice",
-        type: "product",
-        alt: "YourPassenger live voice screen over a blurred night road, cycling listening, thinking and speaking states",
+        id: "session-memory",
+        type: "editorial",
+        alt: "Saved session card summarizing 37 minutes of conversation topics and a next-time reminder",
       },
       {
         id: "conversation-road",
@@ -124,15 +127,47 @@ const PROJECTS: ProjectCardData[] = [
         alt: "Editorial road line with conversation topics and preference settings appearing along the route",
       },
       {
-        id: "session-memory",
-        type: "editorial",
-        alt: "Saved session card summarizing 37 minutes of conversation topics and a next-time reminder",
+        id: "live-voice",
+        type: "product",
+        alt: "YourPassenger live voice screen over a blurred night road, cycling listening, thinking and speaking states",
       },
     ],
   },
 ];
 
 const WELL_RADIUS = "rounded-[clamp(24px,3vw,60px)]";
+
+// Coded Stage-2 panels per project, in well order [small, wide, tall].
+// A visual with an `asset` path falls back to ImageSlot instead.
+const PANELS: Record<string, readonly [ComponentType, ComponentType, ComponentType]> = {
+  curator: CURATOR_PANELS,
+  emojicam: EMOJICAM_PANELS,
+  yourpassenger: PASSENGER_PANELS,
+};
+
+function PanelWell({
+  project,
+  slot,
+  variant,
+  className,
+}: {
+  project: ProjectCardData;
+  slot: 0 | 1 | 2;
+  variant: number;
+  className: string;
+}) {
+  const visual = project.visuals[slot];
+  const Panel = PANELS[project.id]?.[slot];
+  if (Panel && !visual.asset) {
+    return (
+      <div role="img" aria-label={visual.alt} className={`relative overflow-hidden ${className}`}>
+        <Panel />
+        <div aria-hidden="true" className="texture-grain absolute inset-0" />
+      </div>
+    );
+  }
+  return <ImageSlot src={visual.asset} alt={visual.alt} variant={variant} className={className} />;
+}
 
 const CTA_BASE =
   "inline-flex whitespace-nowrap rounded-full border-2 px-[clamp(22px,2.4vw,34px)] py-[11px] text-[clamp(.7rem,1vw,.95rem)] font-medium uppercase tracking-[.14em]";
@@ -233,25 +268,10 @@ function ProjectCard({
 
           <div className="flex min-h-0 flex-1 items-stretch gap-[clamp(10px,1.4vw,18px)]">
             <div className="flex min-h-0 flex-[0_0_40%] flex-col gap-[clamp(10px,1.4vw,18px)]">
-              <ImageSlot
-                src={project.visuals[0].asset}
-                alt={project.visuals[0].alt}
-                variant={index * 3}
-                className={`min-h-0 flex-[0_0_40%] ${WELL_RADIUS}`}
-              />
-              <ImageSlot
-                src={project.visuals[1].asset}
-                alt={project.visuals[1].alt}
-                variant={index * 3 + 1}
-                className={`min-h-0 flex-1 ${WELL_RADIUS}`}
-              />
+              <PanelWell project={project} slot={0} variant={index * 3} className={`min-h-0 flex-[0_0_40%] ${WELL_RADIUS}`} />
+              <PanelWell project={project} slot={1} variant={index * 3 + 1} className={`min-h-0 flex-1 ${WELL_RADIUS}`} />
             </div>
-            <ImageSlot
-              src={project.visuals[2].asset}
-              alt={project.visuals[2].alt}
-              variant={index * 3 + 2}
-              className={`min-h-0 flex-1 ${WELL_RADIUS}`}
-            />
+            <PanelWell project={project} slot={2} variant={index * 3 + 2} className={`min-h-0 flex-1 ${WELL_RADIUS}`} />
           </div>
         </article>
       </motion.div>
