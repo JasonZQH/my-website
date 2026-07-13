@@ -48,7 +48,7 @@ const ITEMS: ExperienceItem[] = [
     range: "Sep 2023 — Dec 2025",
     title: "M.S. Computer Science",
     org: "Northeastern University",
-    desc: "Machine learning, deep learning, and big-data analytics.",
+    desc: "Object-oriented design, algorithms, and distributed systems.",
   },
   {
     range: "Sep 2018 — Dec 2022",
