@@ -1,26 +1,50 @@
+"use client";
+
+import { useState } from "react";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import { NAV_LINKS } from "@/lib/navLinks";
+
+/**
+ * v3 reveal-on-scroll bar: hidden while the hero (with its own in-page nav)
+ * is on screen; slides down once the user scrolls past ~80% of the viewport.
+ */
 export default function Navbar() {
+  const [shown, setShown] = useState(false);
+  const reduce = usePrefersReducedMotion();
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (v) => {
+    setShown(v > window.innerHeight * 0.8);
+  });
+
   return (
-    <nav className="fixed top-0 left-0 w-full z-[100] flex items-center justify-between px-6 sm:px-10 py-[18px] backdrop-blur-2xl bg-[#0B0711]/[.55] border-b border-white/[.07]">
-      <a href="#top" className="flex items-center gap-3 text-[#F4EEE3]">
-        <span
-          className="w-3.5 h-3.5 rounded-full shadow-[0_0_14px_#FF2E93] inline-block"
-          style={{ background: "linear-gradient(120deg,#FF5A3C,#7B5CFF)" }}
-        />
-        <span className="font-display font-bold text-[17px] tracking-[-.01em]">Jason Zhang</span>
+    <motion.nav
+      aria-label="Site"
+      inert={!shown}
+      initial={false}
+      animate={{ y: shown ? 0 : "-110%" }}
+      transition={{ duration: reduce ? 0 : 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+      className="fixed top-0 left-0 w-full z-[100] flex items-center justify-between backdrop-blur-xl bg-[rgba(28,25,37,.62)] border-b border-[rgba(235,232,242,.14)] py-[14px] px-[clamp(20px,4vw,44px)]"
+    >
+      {/* Wordmark hides on phones — four links won't fit beside it */}
+      <a
+        href="#top"
+        className="hidden sm:block font-semibold uppercase tracking-[.16em] text-[clamp(.9rem,1.2vw,1.1rem)] text-[#D7E2EA] whitespace-nowrap"
+      >
+        Jason Zhang
       </a>
-      <div className="flex items-center gap-4 sm:gap-[34px]">
-        <a href="#about" className="text-xs sm:text-sm text-[#B7AFC2] font-medium hover:text-[#F4EEE3] transition-colors">About</a>
-        <a href="#stack" className="text-xs sm:text-sm text-[#B7AFC2] font-medium hover:text-[#F4EEE3] transition-colors">Stack</a>
-        <a href="#experience" className="hidden sm:inline text-sm text-[#B7AFC2] font-medium hover:text-[#F4EEE3] transition-colors">Experience</a>
-        <a href="#work" className="text-xs sm:text-sm text-[#B7AFC2] font-medium hover:text-[#F4EEE3] transition-colors">Work</a>
-        <a
-          href="#contact"
-          className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#0B0711] px-3.5 sm:px-[18px] py-2 sm:py-2.5 rounded-full transition hover:brightness-[1.08]"
-          style={{ background: "linear-gradient(120deg,#FF5A3C,#FF2E93 55%,#7B5CFF)" }}
-        >
-          Let&apos;s talk
-        </a>
+      <div className="flex items-center w-full justify-between sm:w-auto sm:justify-normal sm:gap-[clamp(16px,3vw,40px)]">
+        {NAV_LINKS.map(({ label, href }) => (
+          <a
+            key={href}
+            href={href}
+            className="font-medium uppercase tracking-[.1em] sm:tracking-[.14em] text-[10px] sm:text-[clamp(.72rem,1vw,.95rem)] text-[#D7E2EA] hover:opacity-65 transition-opacity"
+          >
+            {label}
+          </a>
+        ))}
       </div>
-    </nav>
+    </motion.nav>
   );
 }
