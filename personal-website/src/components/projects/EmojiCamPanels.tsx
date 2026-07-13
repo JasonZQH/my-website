@@ -6,6 +6,21 @@
 
 const LAVENDER = "#B7A7EA";
 
+// Cursor zones (set by the card as [data-zone]): 0 neutral · 1 happy ·
+// 2 surprise. A layer tagged ec-notX hides while zone X is active, so each
+// variant carries the two ec-not classes for the zones it does NOT belong to.
+const ZONE_LAYER = [
+  "ec-layer ec-not1 ec-not2", // visible in zone 0
+  "ec-layer ec-not0 ec-not2", // visible in zone 1 (default)
+  "ec-layer ec-not0 ec-not1", // visible in zone 2
+];
+
+const RESPONSES = [
+  { chip: "neutral · 0.74", emoji: "😐" },
+  { chip: "happy · 0.82", emoji: "😊" },
+  { chip: "surprise · 0.77", emoji: "😮" },
+];
+
 export function EmojiResponse() {
   return (
     <div className="absolute inset-0 flex flex-col justify-center gap-3 overflow-hidden bg-[#17141F] px-[7%]">
@@ -14,14 +29,21 @@ export function EmojiResponse() {
         className="absolute inset-0"
         style={{ background: "radial-gradient(120% 110% at 90% 0%, rgba(183,167,234,.1), transparent 60%)" }}
       />
-      <div className="relative flex items-center gap-3">
-        <span className="whitespace-nowrap rounded-full border border-[rgba(183,167,234,.4)] bg-[rgba(183,167,234,.08)] px-[10px] py-[4px] font-mono text-[9.5px] uppercase tracking-[.1em] text-[#D7E2EA]">
-          happy · 0.82
-        </span>
-        <span aria-hidden="true" className="text-[13px]" style={{ color: LAVENDER }}>
-          →
-        </span>
-        <span className="text-[34px] leading-none">😊</span>
+      <div className="relative h-[34px]">
+        {RESPONSES.map((r, zone) => (
+          <div
+            key={r.chip}
+            className={`${ZONE_LAYER[zone]} absolute inset-0 flex items-center gap-3 ${zone === 1 ? "" : "pointer-events-none"}`}
+          >
+            <span className="whitespace-nowrap rounded-full border border-[rgba(183,167,234,.4)] bg-[rgba(183,167,234,.08)] px-[10px] py-[4px] font-mono text-[9.5px] uppercase tracking-[.1em] text-[#D7E2EA]">
+              {r.chip}
+            </span>
+            <span aria-hidden="true" className="text-[13px]" style={{ color: LAVENDER }}>
+              →
+            </span>
+            <span className="text-[34px] leading-none">{r.emoji}</span>
+          </div>
+        ))}
       </div>
       <div className="relative flex items-center gap-2">
         <div className="min-w-0 flex-1 overflow-hidden whitespace-nowrap rounded-full border border-[rgba(215,226,234,.14)] bg-[rgba(9,8,15,.35)] px-3 py-[7px] text-[9px] text-[rgba(215,226,234,.35)]">
@@ -111,11 +133,58 @@ const LANDMARKS: [number, number][] = [
   [100, 176],
 ];
 
-const PROBABILITIES: { label: string; value: number; active?: boolean }[] = [
-  { label: "HAPPY", value: 0.82, active: true },
-  { label: "NEUTRAL", value: 0.11 },
-  { label: "SURPRISE", value: 0.04 },
+type ProbRow = { label: string; value: number; active?: boolean };
+
+// One probability set per cursor zone; zone 1 (happy) is the resting state.
+const PROBABILITY_SETS: ProbRow[][] = [
+  [
+    { label: "NEUTRAL", value: 0.74, active: true },
+    { label: "HAPPY", value: 0.14 },
+    { label: "SURPRISE", value: 0.05 },
+  ],
+  [
+    { label: "HAPPY", value: 0.82, active: true },
+    { label: "NEUTRAL", value: 0.11 },
+    { label: "SURPRISE", value: 0.04 },
+  ],
+  [
+    { label: "SURPRISE", value: 0.77, active: true },
+    { label: "HAPPY", value: 0.12 },
+    { label: "NEUTRAL", value: 0.08 },
+  ],
 ];
+
+function ProbabilityList({ rows }: { rows: ProbRow[] }) {
+  return (
+    <>
+      {rows.map((p) => (
+        <div key={p.label} className="flex items-center gap-2">
+          <span
+            className="w-[72px] flex-none tracking-[.08em]"
+            style={{ color: p.active ? LAVENDER : "rgba(215,226,234,.4)" }}
+          >
+            {p.label}
+          </span>
+          <span className="h-[3px] min-w-0 flex-1 overflow-hidden rounded-full bg-[rgba(215,226,234,.1)]">
+            <span
+              className="block h-full rounded-full transition-[width] duration-300"
+              style={{
+                width: `${p.value * 100}%`,
+                background: p.active ? LAVENDER : "rgba(215,226,234,.35)",
+              }}
+            />
+          </span>
+          <span
+            className="w-[34px] flex-none text-right"
+            style={{ color: p.active ? "#D7E2EA" : "rgba(215,226,234,.4)" }}
+          >
+            {p.value.toFixed(2)}
+          </span>
+        </div>
+      ))}
+    </>
+  );
+}
 
 export function LiveExpression() {
   return (
@@ -161,36 +230,41 @@ export function LiveExpression() {
         <circle cx="124" cy="108" r="4" fill="#D7E2EA" />
         {/* nose */}
         <path d="M100 114 v 18" fill="none" stroke="rgba(215,226,234,.35)" strokeWidth="2" strokeLinecap="round" />
-        {/* smile */}
-        <path d="M74 150 q 26 22 52 0" fill="none" stroke="#D7E2EA" strokeWidth="2.5" strokeLinecap="round" />
+        {/* mouth — one variant per cursor zone */}
+        <path
+          d="M78 152 q 22 5 44 0"
+          fill="none"
+          stroke="#D7E2EA"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          className={ZONE_LAYER[0]}
+        />
+        <path
+          d="M74 150 q 26 22 52 0"
+          fill="none"
+          stroke="#D7E2EA"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          className={ZONE_LAYER[1]}
+        />
+        <ellipse cx="100" cy="156" rx="11" ry="15" fill="none" stroke="#D7E2EA" strokeWidth="2.5" className={ZONE_LAYER[2]} />
         {/* landmarks */}
         {LANDMARKS.map(([x, y]) => (
           <circle key={`${x}-${y}`} cx={x} cy={y} r="2.6" fill={LAVENDER} />
         ))}
       </svg>
-      <div className="absolute inset-x-[9%] bottom-[6%] flex flex-col gap-[7px] font-mono text-[9.5px]">
-        {PROBABILITIES.map((p) => (
-          <div key={p.label} className="flex items-center gap-2">
-            <span
-              className="w-[72px] flex-none tracking-[.08em]"
-              style={{ color: p.active ? LAVENDER : "rgba(215,226,234,.4)" }}
-            >
-              {p.label}
-            </span>
-            <span className="h-[3px] min-w-0 flex-1 overflow-hidden rounded-full bg-[rgba(215,226,234,.1)]">
-              <span
-                className="block h-full rounded-full"
-                style={{
-                  width: `${p.value * 100}%`,
-                  background: p.active ? LAVENDER : "rgba(215,226,234,.35)",
-                }}
-              />
-            </span>
-            <span className="w-[34px] flex-none text-right" style={{ color: p.active ? "#D7E2EA" : "rgba(215,226,234,.4)" }}>
-              {p.value.toFixed(2)}
-            </span>
+      <div className="absolute inset-x-[9%] bottom-[6%] font-mono text-[9.5px]">
+        <div className="relative">
+          <div className={`${ZONE_LAYER[0]} pointer-events-none absolute inset-0 flex flex-col gap-[7px]`}>
+            <ProbabilityList rows={PROBABILITY_SETS[0]} />
           </div>
-        ))}
+          <div className={`${ZONE_LAYER[1]} flex flex-col gap-[7px]`}>
+            <ProbabilityList rows={PROBABILITY_SETS[1]} />
+          </div>
+          <div className={`${ZONE_LAYER[2]} pointer-events-none absolute inset-0 flex flex-col gap-[7px]`}>
+            <ProbabilityList rows={PROBABILITY_SETS[2]} />
+          </div>
+        </div>
       </div>
     </div>
   );

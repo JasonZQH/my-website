@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { motion, useMotionValue } from "framer-motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { CAPABILITIES } from "@/components/capability/CapabilityPosters";
@@ -16,6 +16,7 @@ function CapabilityRow({ items }: { items: typeof CAPABILITIES }) {
           key={`${cap.id}-${index}`}
           aria-hidden={index >= items.length || undefined}
           className="relative h-[clamp(160px,18vw,270px)] w-[clamp(250px,28vw,420px)] flex-none overflow-hidden rounded-2xl bg-[#292530] shadow-[0_18px_40px_rgba(9,8,15,.22)]"
+          style={{ "--capDelay": `${(index % 7) * -0.55}s` } as CSSProperties}
         >
           <cap.Poster />
           <div aria-hidden="true" className="texture-grain absolute inset-0" />
@@ -45,6 +46,19 @@ export default function Marquee() {
   const xOne = useMotionValue(-200);
   const xTwo = useMotionValue(200);
   const reduce = usePrefersReducedMotion();
+  const [inView, setInView] = useState(false);
+
+  // Loop animations run only while the belt is on screen.
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin: "120px" }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const update = () => {
@@ -70,6 +84,7 @@ export default function Marquee() {
       id="capabilities"
       ref={sectionRef}
       aria-label="Capability gallery"
+      data-caps-playing={inView && !reduce ? "true" : undefined}
       className="scroll-mt-20 overflow-hidden pt-[clamp(96px,11vw,160px)] pb-[clamp(84px,9vw,128px)]"
     >
       <motion.div className="flex gap-3 will-change-transform" style={{ x: reduce ? -200 : xOne }}>

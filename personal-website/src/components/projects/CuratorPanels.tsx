@@ -125,9 +125,19 @@ export function CuratorLedger() {
   );
 }
 
-const WORKBENCH_ROWS = [
-  { agent: "WRITER", provider: "CLAUDE CODE", state: "▸ RUNNING", color: GREEN },
-  { agent: "VERIFIER", provider: "LOCAL COMMANDS", state: "WAITING", color: "rgba(215,226,234,.4)" },
+type WorkbenchRow = {
+  agent: string;
+  provider: string;
+  state: string;
+  color: string;
+  /** Hovering the card advances one workflow state (brief §8). */
+  hoverState?: string;
+  hoverColor?: string;
+};
+
+const WORKBENCH_ROWS: WorkbenchRow[] = [
+  { agent: "WRITER", provider: "CLAUDE CODE", state: "▸ RUNNING", color: GREEN, hoverState: "✓ COMPLETE", hoverColor: "#A8B1C0" },
+  { agent: "VERIFIER", provider: "LOCAL COMMANDS", state: "WAITING", color: "rgba(215,226,234,.4)", hoverState: "▸ RUNNING", hoverColor: GREEN },
   { agent: "REVIEWER", provider: "CODEX", state: "READY", color: "#A8B1C0" },
   { agent: "HUMAN GATE", provider: "", state: "LOCKED", color: AMBER },
 ];
@@ -158,8 +168,21 @@ export function CuratorWorkbench() {
             <span className="overflow-hidden whitespace-nowrap text-[9.5px] text-[rgba(215,226,234,.4)]">
               {row.provider}
             </span>
-            <span className="tracking-[.06em]" style={{ color: row.color }}>
-              {row.state}
+            <span className="relative whitespace-nowrap tracking-[.06em]">
+              <span
+                className={row.hoverState ? "transition-opacity duration-300 group-hover:opacity-0" : undefined}
+                style={{ color: row.color }}
+              >
+                {row.state}
+              </span>
+              {row.hoverState && (
+                <span
+                  className="absolute right-0 top-0 whitespace-nowrap opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  style={{ color: row.hoverColor }}
+                >
+                  {row.hoverState}
+                </span>
+              )}
             </span>
           </div>
         ))}

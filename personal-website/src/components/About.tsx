@@ -12,6 +12,32 @@ const TEXT =
 // Split once at module level — the string never changes.
 const CHARS = TEXT.split("");
 
+// Phrases the scrub temporarily emphasizes (brief §5). Each appears verbatim
+// in TEXT exactly once, so index ranges are computed once at module level.
+const PHRASES = [
+  "move between product, systems, and ai",
+  "ambiguous problems",
+  "adapt when the evidence changes",
+  "how a product works and how it feels",
+];
+
+type Segment = { text: string; start: number; emphasized: boolean };
+
+const SEGMENTS: Segment[] = (() => {
+  const out: Segment[] = [];
+  let cursor = 0;
+  const hits = PHRASES.map((phrase) => ({ phrase, at: TEXT.indexOf(phrase) }))
+    .filter((h) => h.at >= 0)
+    .sort((a, b) => a.at - b.at);
+  for (const { phrase, at } of hits) {
+    if (at > cursor) out.push({ text: TEXT.slice(cursor, at), start: cursor, emphasized: false });
+    out.push({ text: phrase, start: at, emphasized: true });
+    cursor = at + phrase.length;
+  }
+  if (cursor < TEXT.length) out.push({ text: TEXT.slice(cursor), start: cursor, emphasized: false });
+  return out;
+})();
+
 // Corner decoration slots: position/size + slide-in direction + stagger.
 const DECOR = [
   {
@@ -68,6 +94,38 @@ function Char({
   return <motion.span style={{ opacity }}>{char}</motion.span>;
 }
 
+/**
+ * An emphasized phrase: while the scrub's reading position is inside it, the
+ * whole phrase brightens to white with a soft glow, then settles back —
+ * inactive text keeps its reduced-contrast ramp.
+ */
+function Phrase({ segment, progress }: { segment: Segment; progress: MotionValue<number> }) {
+  const len = CHARS.length;
+  const enterFrom = Math.max(0, segment.start / len - 0.06);
+  const enterAt = segment.start / len;
+  const leaveAt = Math.min(0.999, (segment.start + segment.text.length) / len);
+  const leaveTo = Math.min(1, leaveAt + 0.08);
+  const color = useTransform(progress, [enterFrom, enterAt, leaveAt, leaveTo], [
+    "rgb(215,226,234)",
+    "rgb(255,255,255)",
+    "rgb(255,255,255)",
+    "rgb(215,226,234)",
+  ]);
+  const textShadow = useTransform(progress, [enterFrom, enterAt, leaveAt, leaveTo], [
+    "0 0 0px rgba(244,241,240,0)",
+    "0 0 16px rgba(244,241,240,.35)",
+    "0 0 16px rgba(244,241,240,.35)",
+    "0 0 0px rgba(244,241,240,0)",
+  ]);
+  return (
+    <motion.span style={{ color, textShadow }}>
+      {segment.text.split("").map((char, i) => (
+        <Char key={i} char={char} index={segment.start + i} progress={progress} />
+      ))}
+    </motion.span>
+  );
+}
+
 export default function About() {
   const pRef = useRef<HTMLParagraphElement>(null);
   const reduce = usePrefersReducedMotion();
@@ -118,9 +176,17 @@ export default function About() {
           <>
             <span className="sr-only">{TEXT}</span>
             <span aria-hidden="true">
-              {CHARS.map((char, i) => (
-                <Char key={i} char={char} index={i} progress={scrollYProgress} />
-              ))}
+              {SEGMENTS.map((segment) =>
+                segment.emphasized ? (
+                  <Phrase key={segment.start} segment={segment} progress={scrollYProgress} />
+                ) : (
+                  <span key={segment.start}>
+                    {segment.text.split("").map((char, i) => (
+                      <Char key={i} char={char} index={segment.start + i} progress={scrollYProgress} />
+                    ))}
+                  </span>
+                )
+              )}
             </span>
           </>
         )}

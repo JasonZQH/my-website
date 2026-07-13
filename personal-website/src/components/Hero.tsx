@@ -62,7 +62,7 @@ export default function Hero() {
               </FadeIn>
             ))}
             <FadeIn delay={0.92} y={18}>
-              <p className="steel-text mt-1 font-black uppercase leading-none tracking-[-.01em] text-[clamp(1.15rem,2.6vw,2.5rem)]">
+              <p className="water-sheen mt-1 font-black uppercase leading-none tracking-[-.01em] text-[clamp(1.15rem,2.6vw,2.5rem)]">
                 be like water.&rdquo;
               </p>
             </FadeIn>

@@ -54,7 +54,7 @@ export function ConversationRoad() {
       />
       <svg
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-[74%] w-full"
+        className="absolute inset-x-0 top-0 h-[74%] w-full transition-transform duration-700 ease-out group-hover:translate-x-2 motion-reduce:transform-none"
         viewBox="0 0 420 190"
         preserveAspectRatio="none"
       >
@@ -122,10 +122,10 @@ export function LiveVoice() {
           </span>
         ))}
       </div>
-      {/* one warm voice pulse */}
+      {/* one warm voice pulse per hover entry */}
       <svg
         aria-hidden="true"
-        className="absolute left-1/2 top-[33%] h-[30%] -translate-x-1/2 -translate-y-1/2"
+        className="pp-pulse absolute left-1/2 top-[33%] h-[30%] -translate-x-1/2 -translate-y-1/2"
         viewBox="0 0 200 200"
       >
         <circle cx="100" cy="100" r="92" fill="none" stroke={AMBER} strokeWidth="1" opacity=".08" />
@@ -141,7 +141,7 @@ export function LiveVoice() {
             I have another forty minutes. Tell me something unexpected.
           </p>
         </div>
-        <div>
+        <div className="translate-y-[4px] opacity-75 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100 motion-reduce:transform-none">
           <div className="font-mono text-[8px] uppercase tracking-[.24em]" style={{ color: "rgba(235,178,104,.75)" }}>
             Passenger
           </div>

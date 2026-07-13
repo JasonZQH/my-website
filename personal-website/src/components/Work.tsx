@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type ComponentType } from "react";
+import { useRef, useState, type ComponentType, type PointerEvent } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import FadeIn from "@/components/ui/FadeIn";
@@ -189,6 +189,17 @@ function ProjectCard({
   const num = String(index + 1).padStart(2, "0");
   const linked = project.cta.href && !project.cta.disabled;
 
+  // EmojiCam only: horizontal cursor position picks the expression zone
+  // (0 neutral / 1 happy / 2 surprise); panels crossfade via [data-zone].
+  const zoned = project.id === "emojicam";
+  const [zone, setZone] = useState(1);
+  const trackZone = (e: PointerEvent<HTMLElement>) => {
+    if (e.pointerType !== "mouse") return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    setZone(x < 0.34 ? 0 : x < 0.67 ? 1 : 2);
+  };
+
   return (
     <>
       <motion.div
@@ -201,11 +212,14 @@ function ProjectCard({
         }}
       >
         <article
-          className="flex h-full flex-col rounded-[clamp(32px,4vw,60px)] border-2 border-[#D7E2EA] backdrop-blur-xl p-[clamp(16px,2.2vw,32px)]"
+          className="group flex h-full flex-col rounded-[clamp(32px,4vw,60px)] border-2 border-[#D7E2EA] backdrop-blur-xl p-[clamp(16px,2.2vw,32px)]"
           style={{ background: project.theme.surface }}
+          data-zone={zoned ? zone : undefined}
+          onPointerMove={zoned && !reduce ? trackZone : undefined}
+          onPointerLeave={zoned ? () => setZone(1) : undefined}
         >
           <div className="flex flex-wrap items-start justify-between gap-x-5 gap-y-3 px-[clamp(4px,1vw,12px)]">
-            <div className="flex items-baseline gap-[clamp(14px,2vw,28px)]">
+            <FadeIn y={16} className="flex items-baseline gap-[clamp(14px,2vw,28px)]">
               <span className="steel-text font-black leading-[.8] text-[clamp(2.4rem,7vw,92px)]">{num}</span>
               <div>
                 <div className="text-[clamp(.66rem,1vw,.88rem)] uppercase tracking-[.16em] text-[#8B9298]">
@@ -215,14 +229,14 @@ function ProjectCard({
                   {project.title}
                 </h3>
               </div>
-            </div>
-            <div className="flex flex-col items-start gap-2 sm:items-end">
+            </FadeIn>
+            <FadeIn y={16} delay={0.28} className="flex flex-col items-start gap-2 sm:items-end">
               {linked ? (
                 <a
                   href={project.cta.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`${CTA_BASE} border-[#D7E2EA] text-[#D7E2EA] transition-colors hover:bg-[rgba(215,226,234,.1)]`}
+                  className={`${CTA_BASE} border-[#D7E2EA] text-[#D7E2EA] transition hover:bg-[rgba(215,226,234,.1)] group-hover:-translate-y-0.5 motion-reduce:transform-none`}
                 >
                   {project.cta.label}
                 </a>
@@ -243,14 +257,20 @@ function ProjectCard({
                   {project.status}
                 </span>
               )}
-            </div>
+            </FadeIn>
           </div>
 
-          <p className="mt-[clamp(10px,1.4vw,16px)] max-w-[62ch] px-[clamp(4px,1vw,12px)] font-light leading-[1.5] text-[rgba(215,226,234,.78)] text-[clamp(.92rem,1.5vw,1.2rem)]">
-            {project.hook}
-          </p>
+          <FadeIn y={14} delay={0.1}>
+            <p className="mt-[clamp(10px,1.4vw,16px)] max-w-[62ch] px-[clamp(4px,1vw,12px)] font-light leading-[1.5] text-[rgba(215,226,234,.78)] text-[clamp(.92rem,1.5vw,1.2rem)]">
+              {project.hook}
+            </p>
+          </FadeIn>
 
-          <div className="mt-[clamp(10px,1.4vw,16px)] mb-[clamp(14px,2vw,24px)] flex flex-wrap items-center justify-between gap-x-5 gap-y-3 px-[clamp(4px,1vw,12px)]">
+          <FadeIn
+            y={14}
+            delay={0.18}
+            className="mt-[clamp(10px,1.4vw,16px)] mb-[clamp(14px,2vw,24px)] flex flex-wrap items-center justify-between gap-x-5 gap-y-3 px-[clamp(4px,1vw,12px)]"
+          >
             <div className="text-[clamp(.62rem,.9vw,.8rem)] uppercase tracking-[.14em] text-[#8B9298]">
               {project.role}
             </div>
@@ -264,15 +284,26 @@ function ProjectCard({
                 </li>
               ))}
             </ul>
-          </div>
+          </FadeIn>
 
-          <div className="flex min-h-0 flex-1 items-stretch gap-[clamp(10px,1.4vw,18px)]">
+          <motion.div
+            className="flex min-h-0 flex-1 items-stretch gap-[clamp(10px,1.4vw,18px)]"
+            initial={reduce ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.03 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={reduce ? { duration: 0 } : { duration: 0.7, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+          >
             <div className="flex min-h-0 flex-[0_0_40%] flex-col gap-[clamp(10px,1.4vw,18px)]">
               <PanelWell project={project} slot={0} variant={index * 3} className={`min-h-0 flex-[0_0_40%] ${WELL_RADIUS}`} />
               <PanelWell project={project} slot={1} variant={index * 3 + 1} className={`min-h-0 flex-1 ${WELL_RADIUS}`} />
             </div>
-            <PanelWell project={project} slot={2} variant={index * 3 + 2} className={`min-h-0 flex-1 ${WELL_RADIUS}`} />
-          </div>
+            <PanelWell
+              project={project}
+              slot={2}
+              variant={index * 3 + 2}
+              className={`min-h-0 flex-1 ${WELL_RADIUS} transition duration-300 group-hover:brightness-[1.06]`}
+            />
+          </motion.div>
         </article>
       </motion.div>
       {index < count - 1 && <div aria-hidden="true" className="h-[13vh] min-h-[96px]" />}

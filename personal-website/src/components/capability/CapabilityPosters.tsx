@@ -52,7 +52,15 @@ function Microservices() {
           <path d={`M210 ${y + 15} C 250 ${y + 15}, 270 118, 306 118`} stroke={DIM} strokeWidth="1.5" fill="none" />
         </g>
       ))}
-      <circle cx="326" cy="118" r="16" fill="rgba(105,101,181,.14)" stroke={VIOLET} strokeWidth="2" />
+      <path
+        d="M39 118 H 74 M76 118 h36 M112 118 C 140 118, 150 53, 178 53 h30 M210 53 C 250 53, 270 118, 306 118 h4"
+        fill="none"
+        stroke={VIOLET}
+        strokeWidth="2.2"
+        pathLength={100}
+        className="cap-anim cap-comet"
+      />
+      <circle cx="326" cy="118" r="16" fill="rgba(105,101,181,.14)" stroke={VIOLET} strokeWidth="2" className="cap-anim cap-pulse" />
     </Frame>
   );
 }
@@ -84,9 +92,26 @@ function Kubernetes() {
       ].map(([cx, cy]) => (
         <circle key={`${cx}${cy}`} cx={cx} cy={cy} r="7" fill="rgba(215,226,234,.25)" />
       ))}
-      <circle cx="334" cy="162" r="7" fill="none" stroke={GREEN} strokeWidth="2" />
-      <circle cx="356" cy="162" r="7" fill="none" stroke={GREEN} strokeWidth="2" />
+      <circle cx="334" cy="162" r="7" fill="none" stroke={GREEN} strokeWidth="2" className="cap-anim cap-pulse" />
+      <circle
+        cx="356"
+        cy="162"
+        r="7"
+        fill="none"
+        stroke={GREEN}
+        strokeWidth="2"
+        className="cap-anim cap-pulse"
+        style={{ animationDelay: "calc(var(--capDelay, 0s) - .4s)" }}
+      />
       <path d="M212 150 C 240 190, 280 176, 322 164" stroke={GREEN} strokeWidth="1.5" strokeDasharray="4 4" fill="none" />
+      <path
+        d="M212 150 C 240 190, 280 176, 322 164"
+        stroke={GREEN}
+        strokeWidth="2.4"
+        fill="none"
+        pathLength={100}
+        className="cap-anim cap-comet"
+      />
     </Frame>
   );
 }
@@ -119,6 +144,14 @@ function MultiAgent() {
       })}
       {/* one rejection loops back before approval */}
       <path d="M158 102 C 130 58, 90 58, 62 100" fill="none" stroke={MAGENTA} strokeWidth="1.8" strokeDasharray="5 5" />
+      <path
+        d="M158 102 C 130 58, 90 58, 62 100"
+        fill="none"
+        stroke={MAGENTA}
+        strokeWidth="2.6"
+        pathLength={100}
+        className="cap-anim cap-comet"
+      />
       <path d="M62 100 l8 -2 M62 100 l2 -8" fill="none" stroke={MAGENTA} strokeWidth="1.8" />
     </Frame>
   );
@@ -129,7 +162,15 @@ function CloudCallbacks() {
     <Frame tint="rgba(235,178,104,.1)">
       {/* local app */}
       <rect x="56" y="150" width="76" height="58" rx="9" fill="none" stroke={INK} strokeWidth="1.5" />
-      <path d="M76 182 l8 8 l16 -18" fill="none" stroke={AMBER} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M76 182 l8 8 l16 -18"
+        fill="none"
+        stroke={AMBER}
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="cap-anim cap-pulse"
+      />
       {/* cloud volume */}
       <g fill="none" stroke={INK} strokeWidth="1.5">
         <ellipse cx="300" cy="84" rx="58" ry="28" />
@@ -143,6 +184,14 @@ function CloudCallbacks() {
       <path d="M238 92 l-9 0 M238 92 l-3 8" fill="none" stroke={INK} strokeWidth="1.5" />
       {/* async callback */}
       <path d="M296 116 C 260 170, 200 186, 140 182" stroke={AMBER} strokeWidth="1.8" strokeDasharray="5 5" fill="none" />
+      <path
+        d="M296 116 C 260 170, 200 186, 140 182"
+        stroke={AMBER}
+        strokeWidth="2.6"
+        fill="none"
+        pathLength={100}
+        className="cap-anim cap-comet"
+      />
       <path d="M140 182 l9 -3 M140 182 l8 5" fill="none" stroke={AMBER} strokeWidth="1.8" />
     </Frame>
   );
@@ -152,14 +201,34 @@ function Websocket() {
   return (
     <Frame tint="rgba(87,227,155,.1)">
       <circle cx="104" cy="128" r="6" fill={GREEN} />
-      <circle cx="104" cy="128" r="20" fill="none" stroke={GREEN} strokeWidth="1.5" opacity=".5" />
-      <circle cx="104" cy="128" r="38" fill="none" stroke={GREEN} strokeWidth="1.2" opacity=".25" />
-      <circle cx="104" cy="128" r="58" fill="none" stroke={GREEN} strokeWidth="1" opacity=".12" />
+      <circle cx="104" cy="128" r="20" fill="none" stroke={GREEN} strokeWidth="1.5" opacity=".5" className="cap-anim cap-ping" />
+      <circle
+        cx="104"
+        cy="128"
+        r="38"
+        fill="none"
+        stroke={GREEN}
+        strokeWidth="1.2"
+        opacity=".25"
+        className="cap-anim cap-ping"
+        style={{ animationDelay: "calc(var(--capDelay, 0s) - 1.2s)" }}
+      />
+      <circle
+        cx="104"
+        cy="128"
+        r="58"
+        fill="none"
+        stroke={GREEN}
+        strokeWidth="1"
+        opacity=".12"
+        className="cap-anim cap-ping"
+        style={{ animationDelay: "calc(var(--capDelay, 0s) - 2.4s)" }}
+      />
       {[36, 110, 184].map((y) => (
         <g key={y}>
           <path d={`M110 128 C 190 128, 210 ${y + 26}, 288 ${y + 26}`} stroke={DIM} strokeWidth="1.5" fill="none" />
           <rect x="290" y={y} width="86" height="52" rx="7" fill="none" stroke={INK} strokeWidth="1.5" />
-          <circle cx="304" cy={y + 12} r="3" fill={GREEN} />
+          <circle cx="304" cy={y + 12} r="3" fill={GREEN} className="cap-anim cap-blink" />
           <path d={`M300 ${y + 30} h 60 M300 ${y + 40} h 42`} stroke={DIM} strokeWidth="2" strokeLinecap="round" />
         </g>
       ))}
@@ -171,9 +240,31 @@ function Postgis() {
   return (
     <Frame tint="rgba(105,101,181,.12)">
       <circle cx="150" cy="126" r="4.5" fill={VIOLET} />
-      <circle cx="150" cy="126" r="30" fill="none" stroke={VIOLET} strokeWidth="1.2" opacity=".5" strokeDasharray="4 4" />
-      <circle cx="150" cy="126" r="62" fill="none" stroke={VIOLET} strokeWidth="1" opacity=".28" strokeDasharray="4 4" />
-      <circle cx="150" cy="126" r="96" fill="none" stroke={VIOLET} strokeWidth="1" opacity=".14" strokeDasharray="4 4" />
+      <circle cx="150" cy="126" r="30" fill="none" stroke={VIOLET} strokeWidth="1.2" opacity=".5" strokeDasharray="4 4" className="cap-anim cap-ping" />
+      <circle
+        cx="150"
+        cy="126"
+        r="62"
+        fill="none"
+        stroke={VIOLET}
+        strokeWidth="1"
+        opacity=".28"
+        strokeDasharray="4 4"
+        className="cap-anim cap-ping"
+        style={{ animationDelay: "calc(var(--capDelay, 0s) - 1.2s)" }}
+      />
+      <circle
+        cx="150"
+        cy="126"
+        r="96"
+        fill="none"
+        stroke={VIOLET}
+        strokeWidth="1"
+        opacity=".14"
+        strokeDasharray="4 4"
+        className="cap-anim cap-ping"
+        style={{ animationDelay: "calc(var(--capDelay, 0s) - 2.4s)" }}
+      />
       {[
         [96, 84],
         [208, 74],
@@ -185,7 +276,7 @@ function Postgis() {
       ))}
       {/* the selected point */}
       <circle cx="262" cy="106" r="4.5" fill={VIOLET} />
-      <circle cx="262" cy="106" r="10" fill="none" stroke={VIOLET} strokeWidth="1.8" />
+      <circle cx="262" cy="106" r="10" fill="none" stroke={VIOLET} strokeWidth="1.8" className="cap-anim cap-pulse" />
       {/* the route bends toward it */}
       <path d="M18 214 C 90 206, 150 196, 196 168 S 248 124, 258 114" fill="none" stroke={INK} strokeWidth="2.2" strokeLinecap="round" />
     </Frame>
@@ -211,12 +302,20 @@ function ComputerVision() {
         [152, 140],
         [132, 158],
         [172, 158],
-      ].map(([cx, cy]) => (
-        <circle key={`${cx}${cy}`} cx={cx} cy={cy} r="2.4" fill={MAGENTA} />
+      ].map(([cx, cy], i) => (
+        <circle
+          key={`${cx}${cy}`}
+          cx={cx}
+          cy={cy}
+          r="2.4"
+          fill={MAGENTA}
+          className="cap-anim cap-blink"
+          style={{ animationDelay: `calc(var(--capDelay, 0s) - ${(i % 4) * 0.45}s)` }}
+        />
       ))}
       {/* confidence */}
       <rect x="258" y="92" width="118" height="9" rx="4.5" fill="rgba(187,79,159,.2)" />
-      <rect x="258" y="92" width="94" height="9" rx="4.5" fill={MAGENTA} />
+      <rect x="258" y="92" width="94" height="9" rx="4.5" fill={MAGENTA} className="cap-anim cap-measure" />
       <rect x="258" y="116" width="118" height="9" rx="4.5" fill="rgba(215,226,234,.12)" />
       <rect x="258" y="116" width="34" height="9" rx="4.5" fill="rgba(215,226,234,.35)" />
       <rect x="258" y="140" width="118" height="9" rx="4.5" fill="rgba(215,226,234,.12)" />
@@ -243,13 +342,16 @@ function GenerativeMedia() {
         stroke={AMBER}
         strokeWidth="1.6"
         strokeLinecap="round"
+        className="cap-anim cap-march"
       />
       {[188, 224, 260, 296].map((x) => (
         <path key={x} d={`M${x} 172 v 7`} stroke={DIM} strokeWidth="2" />
       ))}
       {/* the finished piece */}
-      <rect x="330" y="58" width="64" height="46" rx="7" fill="rgba(235,178,104,.08)" stroke={AMBER} strokeWidth="1.8" />
-      <path d="M356 72 l14 9 l-14 9 z" fill={AMBER} />
+      <g className="cap-anim cap-pulse">
+        <rect x="330" y="58" width="64" height="46" rx="7" fill="rgba(235,178,104,.08)" stroke={AMBER} strokeWidth="1.8" />
+        <path d="M356 72 l14 9 l-14 9 z" fill={AMBER} />
+      </g>
       <path d="M320 132 C 340 124, 350 112, 356 106" stroke={AMBER} strokeWidth="1.5" strokeDasharray="4 4" fill="none" />
     </Frame>
   );
@@ -283,6 +385,8 @@ function Grpc() {
           fill={i === 0 ? "rgba(105,101,181,.16)" : "none"}
           stroke={VIOLET}
           strokeWidth="1.8"
+          className="cap-anim cap-march"
+          style={{ animationDelay: `calc(var(--capDelay, 0s) - ${i * 0.35}s)` }}
         />
       ))}
       {/* service line they cross */}
@@ -305,12 +409,20 @@ function Cicd() {
       </text>
       {/* 10% to canary */}
       <path d="M50 134 C 76 154, 96 162, 126 164" stroke={GREEN} strokeWidth="1.5" fill="none" />
+      <path
+        d="M50 134 C 76 154, 96 162, 126 164 h 80"
+        stroke={GREEN}
+        strokeWidth="2.4"
+        fill="none"
+        pathLength={100}
+        className="cap-anim cap-comet"
+      />
       <rect x="128" y="152" width="86" height="26" rx="13" fill="rgba(87,227,155,.08)" stroke={GREEN} strokeWidth="1.8" />
       <text x="226" y="170" fontSize="10" fill={GREEN} style={mono}>
         10%
       </text>
       {/* healthy signal on the canary */}
-      <path d="M246 166 l6 6 l12 -13" fill="none" stroke={GREEN} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M246 166 l6 6 l12 -13" fill="none" stroke={GREEN} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="cap-anim cap-pulse" />
       <path d="M214 165 h 24" stroke="rgba(87,227,155,.35)" strokeWidth="1.2" strokeDasharray="3 3" />
     </Frame>
   );
@@ -323,10 +435,18 @@ function Observability() {
       <path d="M28 74 L 130 72 L 158 70" stroke={INK} strokeWidth="1.8" fill="none" />
       <path d="M158 70 L 182 34 L 206 76" stroke={MAGENTA} strokeWidth="2" fill="none" />
       <path d="M206 76 L 392 72" stroke={INK} strokeWidth="1.8" fill="none" />
+      <path
+        d="M28 74 L 130 72 L 158 70 L 182 34 L 206 76 L 392 72"
+        stroke={MAGENTA}
+        strokeWidth="2.2"
+        fill="none"
+        pathLength={100}
+        className="cap-anim cap-comet"
+      />
       {/* trace waterfall; the culprit span lights up */}
       <rect x="60" y="118" width="240" height="11" rx="5.5" fill="rgba(215,226,234,.16)" />
       <rect x="96" y="140" width="176" height="11" rx="5.5" fill="rgba(215,226,234,.12)" />
-      <rect x="128" y="162" width="118" height="11" rx="5.5" fill={MAGENTA} />
+      <rect x="128" y="162" width="118" height="11" rx="5.5" fill={MAGENTA} className="cap-anim cap-pulse" />
       <rect x="150" y="184" width="56" height="11" rx="5.5" fill="rgba(215,226,234,.12)" />
       <path d="M182 40 C 210 84, 200 130, 187 160" stroke="rgba(187,79,159,.45)" strokeWidth="1.3" strokeDasharray="4 4" fill="none" />
     </Frame>
@@ -351,8 +471,20 @@ function DataCoordination() {
       {[70, 142, 210].map((y) => (
         <path key={y} d={`M108 ${y} C 170 ${y}, 190 132, 246 132`} stroke={DIM} strokeWidth="1.5" fill="none" />
       ))}
+      {[70, 142, 210].map((y, i) => (
+        <path
+          key={`comet-${y}`}
+          d={`M108 ${y} C 170 ${y}, 190 132, 246 132`}
+          stroke={AMBER}
+          strokeWidth="2.2"
+          fill="none"
+          pathLength={100}
+          className="cap-anim cap-comet"
+          style={{ animationDelay: `calc(var(--capDelay, 0s) - ${i * 1.2}s)` }}
+        />
+      ))}
       <rect x="248" y="100" width="118" height="64" rx="10" fill="rgba(235,178,104,.07)" stroke={AMBER} strokeWidth="1.8" />
-      <path d="M264 120 h 86 M264 134 h 62 M264 148 h 74" stroke="rgba(215,226,234,.4)" strokeWidth="2.4" strokeLinecap="round" />
+      <path d="M264 120 h 86 M264 134 h 62 M264 148 h 74" stroke="rgba(215,226,234,.4)" strokeWidth="2.4" strokeLinecap="round" className="cap-anim cap-blink" />
     </Frame>
   );
 }
