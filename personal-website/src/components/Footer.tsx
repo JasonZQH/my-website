@@ -23,7 +23,7 @@ export default function Footer() {
         </FadeIn>
         <div className="flex gap-3 justify-center flex-wrap mt-[clamp(26px,4vw,42px)]">
           <a
-            href="mailto:zhang.qinha@northeastern.edu"
+            href="mailto:jasonontheway98@qinhaozhang.dev"
             className={`${PILL_CLASSES} hover:border-[#BB4F9F]`}
           >
             Email

@@ -15,7 +15,12 @@ export default defineConfig({
     baseURL: "http://127.0.0.1:3000",
     trace: "on-first-retry",
   },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  projects: [
+    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    // WebKit ≈ Safari — the site leans on WebGL, IntersectionObserver, sticky
+    // stacking, and CSS animation; brief §18 requires Safari coverage.
+    { name: "webkit", use: { ...devices["Desktop Safari"] } },
+  ],
   webServer: {
     command: "npm run start",
     url: "http://127.0.0.1:3000",

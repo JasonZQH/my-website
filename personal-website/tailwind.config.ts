@@ -1,6 +1,11 @@
 // tailwind.config.js
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
+  future: {
+    // hover: variants only on devices that actually hover — touch taps must
+    // not trigger the Stage-3 card interactions.
+    hoverOnlyWhenSupported: true,
+  },
   theme: {
     extend: {
       fontFamily: {

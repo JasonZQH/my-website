@@ -7,34 +7,60 @@ import FadeIn from "@/components/ui/FadeIn";
 import AuroraPill from "@/components/ui/AuroraPill";
 
 const TEXT =
-  "With a master's in computer science and five years building software, i focus on agentic ai, computer vision, and full-stack systems. i love working with teams that want to stand out and ship something intelligent — let's build something incredible together!";
+  "i move between product, systems, and ai without treating them as separate disciplines. i'm drawn to ambiguous problems, fast feedback, and ideas that only become clear once they are made. i adapt when the evidence changes, question familiar patterns, and care equally about how a product works and how it feels.";
 
 // Split once at module level — the string never changes.
 const CHARS = TEXT.split("");
+
+// Phrases the scrub temporarily emphasizes (brief §5). Each appears verbatim
+// in TEXT exactly once, so index ranges are computed once at module level.
+const PHRASES = [
+  "move between product, systems, and ai",
+  "ambiguous problems",
+  "adapt when the evidence changes",
+  "how a product works and how it feels",
+];
+
+type Segment = { text: string; start: number; emphasized: boolean };
+
+const SEGMENTS: Segment[] = (() => {
+  const out: Segment[] = [];
+  let cursor = 0;
+  const hits = PHRASES.map((phrase) => ({ phrase, at: TEXT.indexOf(phrase) }))
+    .filter((h) => h.at >= 0)
+    .sort((a, b) => a.at - b.at);
+  for (const { phrase, at } of hits) {
+    if (at > cursor) out.push({ text: TEXT.slice(cursor, at), start: cursor, emphasized: false });
+    out.push({ text: phrase, start: at, emphasized: true });
+    cursor = at + phrase.length;
+  }
+  if (cursor < TEXT.length) out.push({ text: TEXT.slice(cursor), start: cursor, emphasized: false });
+  return out;
+})();
 
 // Corner decoration slots: position/size + slide-in direction + stagger.
 const DECOR = [
   {
     pos: "top-[4%] left-[1%] w-[clamp(120px,16vw,210px)] sm:left-[2%] md:left-[4%]",
-    src: "https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/moon_icon.11395d36.png",
+    src: "/assets/about/moon.png",
     x: -80,
     delay: 0.1,
   },
   {
     pos: "top-[4%] right-[1%] w-[clamp(120px,16vw,210px)] sm:right-[2%] md:right-[4%]",
-    src: "https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/lego_icon-1.703bb594.png",
+    src: "/assets/about/lego.png",
     x: 80,
     delay: 0.15,
   },
   {
     pos: "bottom-[8%] left-[3%] w-[clamp(100px,14vw,180px)] sm:left-[6%] md:left-[10%]",
-    src: "https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/p59_1.4659672e.png",
+    src: "/assets/about/p59.png",
     x: -80,
     delay: 0.25,
   },
   {
     pos: "bottom-[8%] right-[3%] w-[clamp(130px,17vw,220px)] sm:right-[6%] md:right-[10%]",
-    src: "https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/Group_134-1.2e04f3ce.png",
+    src: "/assets/about/badge.png",
     x: 80,
     delay: 0.3,
   },
@@ -66,6 +92,38 @@ function Char({
     [0.5, 1]
   );
   return <motion.span style={{ opacity }}>{char}</motion.span>;
+}
+
+/**
+ * An emphasized phrase: while the scrub's reading position is inside it, the
+ * whole phrase brightens to white with a soft glow, then settles back —
+ * inactive text keeps its reduced-contrast ramp.
+ */
+function Phrase({ segment, progress }: { segment: Segment; progress: MotionValue<number> }) {
+  const len = CHARS.length;
+  const enterFrom = Math.max(0, segment.start / len - 0.06);
+  const enterAt = segment.start / len;
+  const leaveAt = Math.min(0.999, (segment.start + segment.text.length) / len);
+  const leaveTo = Math.min(1, leaveAt + 0.08);
+  const color = useTransform(progress, [enterFrom, enterAt, leaveAt, leaveTo], [
+    "rgb(215,226,234)",
+    "rgb(255,255,255)",
+    "rgb(255,255,255)",
+    "rgb(215,226,234)",
+  ]);
+  const textShadow = useTransform(progress, [enterFrom, enterAt, leaveAt, leaveTo], [
+    "0 0 0px rgba(244,241,240,0)",
+    "0 0 16px rgba(244,241,240,.35)",
+    "0 0 16px rgba(244,241,240,.35)",
+    "0 0 0px rgba(244,241,240,0)",
+  ]);
+  return (
+    <motion.span style={{ color, textShadow }}>
+      {segment.text.split("").map((char, i) => (
+        <Char key={i} char={char} index={segment.start + i} progress={progress} />
+      ))}
+    </motion.span>
+  );
 }
 
 export default function About() {
@@ -118,9 +176,17 @@ export default function About() {
           <>
             <span className="sr-only">{TEXT}</span>
             <span aria-hidden="true">
-              {CHARS.map((char, i) => (
-                <Char key={i} char={char} index={i} progress={scrollYProgress} />
-              ))}
+              {SEGMENTS.map((segment) =>
+                segment.emphasized ? (
+                  <Phrase key={segment.start} segment={segment} progress={scrollYProgress} />
+                ) : (
+                  <span key={segment.start}>
+                    {segment.text.split("").map((char, i) => (
+                      <Char key={i} char={char} index={segment.start + i} progress={scrollYProgress} />
+                    ))}
+                  </span>
+                )
+              )}
             </span>
           </>
         )}

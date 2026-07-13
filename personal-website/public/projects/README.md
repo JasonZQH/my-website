@@ -1,38 +1,36 @@
 # Project images — current wiring
 
-The Projects section (`src/components/Work.tsx`) currently shows the **reference
-design's placeholder projects** (Nextlevel Studio / Aura Brand Identity / Solaris
-Digital) with images hotlinked from the template's CDN. That look was chosen
-deliberately to match the reference template — but the content is not Jason's
-work, so swap it before launch.
+The Projects section (`src/components/Work.tsx`) shows Jason's three real
+projects (CURATOR / EmojiCam / YourPassenger). Each panel is a coded React
+component (`src/components/projects/*Panels.tsx`), so no image files are
+needed. Setting a visual's `asset` path overrides the coded panel with an
+`ImageSlot` image instead.
 
-## Swapping in real projects
+## Overriding a panel with an image
 
-Each entry in `PROJECTS` (Work.tsx) has:
+Each entry in `PROJECTS` (Work.tsx) is a `ProjectCardData` whose `visuals`
+array holds exactly three panels:
 
 ```ts
-{
-  category: "Client" | "Personal" | ...,   // small label above the title
-  title: "...",
-  href: "...",                              // Live Project link target
-  slug: "...",                              // React key
-  images: { a: "...", b: "...", c: "..." }, // top-left, bottom-left, right (tall)
-}
+visuals: [
+  { id: "workbench", type: "product", alt: "...", asset: "/projects/curator-workbench.webp" },
+  // asset omitted → the coded panel renders (the default for all three projects)
+]
 ```
 
-To use local screenshots instead of hotlinks: drop files in this folder and point
-the fields at them, e.g. `images: { a: "/projects/tradgent-a.webp", ... }`.
+Drop files in this folder and point `asset` at them. Panel geometry:
 
-- **a** — small landscape well (top-left)
-- **b** — landscape/square well (bottom-left)
-- **c** — tall well (right, fills the card height)
+- `visuals[0]` — small landscape well (top-left)
+- `visuals[1]` — landscape/square well (bottom-left)
+- `visuals[2]` — tall well (right, fills the card height)
 
 `ImageSlot` renders an on-brand gradient placeholder behind every image, so a
 missing/broken file degrades gracefully instead of showing a broken-image icon.
+Prefer AVIF/WebP under ~300 KB per still, exported at ~2× rendered size.
 
-## Other hotlinked template assets (same caveat)
+## Local media inventory
 
-- Marquee belts: 21 GIFs from `motionsites.ai` (`src/components/Marquee.tsx`)
-- About decorations: 4 3D-object PNGs from the template's Figma site
-  (`src/components/About.tsx`)
-- Hero portrait: local — `public/assets/portrait/jason-hero-wink-smirk-v7.png`
+No remote/template assets remain. Hero portrait:
+`public/assets/portrait/jason-hero-wink-smirk-v7.webp`; About decorations:
+`public/assets/about/*.png`; marquee tiles and project panels are coded
+components (`src/components/capability/`, `src/components/projects/`).

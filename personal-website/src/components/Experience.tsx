@@ -1,44 +1,57 @@
 import FadeIn from "@/components/ui/FadeIn";
 
-const ITEMS = [
+type ExperienceItem = {
+  range: string;
+  title: string;
+  org: string;
+  desc: string;
+  /** Contribution proof — exact approved wording; revealed as the row scrolls into view. */
+  metrics?: string[];
+  /** Supporting system labels rendered as quiet chips under the description. */
+  systems?: string[];
+};
+
+const ITEMS: ExperienceItem[] = [
   {
-    range: "2025.09 — 2025.12",
-    title: "Teaching Assistant",
-    org: "Northeastern University",
-    desc: "TA for CS5610: Web Development.",
+    range: "Apr 2026 — Present",
+    title: "Software Engineer, Founding Team",
+    org: "Vybers.ai",
+    desc: "Shipped production systems spanning asynchronous generative-video pipelines, autonomous geospatial agents, world-model infrastructure, realtime delivery, and controlled cloud deployment.",
+    systems: [
+      "AI travel-vlog pipeline",
+      "autonomous map-agent exploration",
+      "world-model architecture rewrite",
+      "versioned-token authentication",
+      "canary production delivery",
+    ],
+    metrics: ["365 commits", "91 merged PRs", "9 repositories touched", "first 3 months"],
   },
   {
-    range: "2025.06 — 2025.08",
+    range: "Jun 2025 — Aug 2025",
     title: "Backend SWE Intern",
     org: "XPerf",
-    desc: "Engineered the backend of an AI-powered bookkeeping app with Django + Pydantic-AI agents — expense tracking, automated invoicing, and tax calculation.",
+    desc: "Built Django/DRF services for 12+ bookkeeping workflows and a typed Pydantic AI graph that routed, validated, confirmed, and gated persistence of multi-step operations.",
   },
   {
-    range: "2025.01 — 2025.04",
-    title: "Software Engineering Intern",
+    range: "Jan 2025 — Apr 2025",
+    title: "Software Engineer Co-op",
     org: "IpserLab",
-    desc: "AI-based travel management system using LangChain for Java.",
+    desc: "Built Spring Boot services for an AI trip-planning product and a federated GraphQL layer integrating six external providers with concurrency, validation, and fallbacks.",
   },
   {
-    range: "2024.06 — 2024.08",
+    range: "Jun 2024 — Aug 2024",
     title: "Software Engineering Intern",
     org: "SuperADS",
-    desc: "Built AI-driven video deduplication workflows with ComfyUI custom nodes; introduced data-driven quality monitoring that raised self-check efficiency by 30%.",
+    desc: "Built an OpenCV/PyTorch video-processing pipeline used across 65+ batch jobs, with containerized execution and Grafana-based operational visibility.",
   },
   {
-    range: "2023.09 — 2025.12",
+    range: "Sep 2023 — Dec 2025",
     title: "M.S. Computer Science",
     org: "Northeastern University",
     desc: "Machine learning, deep learning, and big-data analytics.",
   },
   {
-    range: "2022.05 — 2022.08",
-    title: "Data Science Intern",
-    org: "Surge Consulting",
-    desc: "Automated voice-to-text pipelines (Wav2Vec 2.0), cutting manual work 40% and lifting transcription accuracy 30%, deployed on Docker + Kubernetes.",
-  },
-  {
-    range: "2018.09 — 2022.12",
+    range: "Sep 2018 — Dec 2022",
     title: "B.S. Applied Statistics & Data Science",
     org: "Penn State",
     desc: "Foundation in statistical analysis, programming, and data-driven research.",
@@ -75,6 +88,25 @@ export default function Experience() {
                 <p className="mt-2 font-light leading-[1.6] text-[rgba(215,226,234,.6)] text-[clamp(.9rem,1.5vw,1.12rem)] max-w-[640px]">
                   {item.desc}
                 </p>
+                {item.systems && (
+                  <ul className="mt-[14px] flex max-w-[640px] flex-wrap gap-2">
+                    {item.systems.map((label) => (
+                      <li
+                        key={label}
+                        className="rounded-full border border-[rgba(215,226,234,.16)] px-3 py-1 text-[.68rem] uppercase tracking-[.12em] text-[#8B9298]"
+                      >
+                        {label}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {item.metrics && (
+                  <FadeIn delay={0.3} y={12}>
+                    <p className="mt-[16px] font-medium tracking-[.02em] text-[#D7E2EA] text-[clamp(.9rem,1.4vw,1.1rem)]">
+                      {item.metrics.join("  ·  ")}
+                    </p>
+                  </FadeIn>
+                )}
               </div>
             </FadeIn>
           ))}
