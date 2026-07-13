@@ -66,8 +66,12 @@ jobs:
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
-      - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
+      - name: Install Playwright browsers
+        # Must match the projects in playwright.config.ts (chromium AND webkit —
+        # webkit covers Safari per brief §18). test:e2e runs `playwright test` with
+        # no --project filter, so every configured project's browser must be present
+        # or the job aborts with "Executable doesn't exist".
+        run: npx playwright install --with-deps chromium webkit
       - name: Render checks (boot prod server + drive a headless browser)
         run: npm run test:e2e
         env:
